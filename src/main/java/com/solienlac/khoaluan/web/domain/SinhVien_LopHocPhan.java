@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "sinhvien_lophocphan")
@@ -26,5 +28,6 @@ public class SinhVien_LopHocPhan implements Serializable {
     @JoinColumn(name = "idLopHocPhan")
     private LopHocPhan lopHocPhan;
 
-
+    @OneToMany(mappedBy = "sinhVien_lopHocPhan")
+    private List<NgayNghi> ngayNghis = new ArrayList<>();
 }

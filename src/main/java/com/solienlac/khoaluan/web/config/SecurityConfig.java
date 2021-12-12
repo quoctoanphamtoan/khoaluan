@@ -47,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .antMatcher("/api/**")
-                .authorizeRequests().antMatchers("/api/solienlacdientu/v1/sinhvien/**").hasAnyAuthority("SINH_VIEN")
+                .authorizeRequests().antMatchers("/api/solienlacdientu/v1/sinhvien/**").hasAnyAuthority("SINH_VIEN","PHU_HUYNH")
                 .antMatchers("/api/solienlacdientu/v1/giangvien/**").hasAnyAuthority("GIANG_VIEN")
                 .antMatchers("/api/solienlacdientu/v1/phuhuynh/**").hasAnyAuthority("PHU_HUYNH")
                 .and()

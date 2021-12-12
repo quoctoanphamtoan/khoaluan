@@ -1,10 +1,12 @@
 package com.solienlac.khoaluan.web.api;
 
-import com.solienlac.khoaluan.web.common.dto.GetDonXinNghiHoc;
+import com.solienlac.khoaluan.web.common.dto.DiemSinhVienDto;
+import com.solienlac.khoaluan.web.common.dto.GetDiemSinhVien;
 import com.solienlac.khoaluan.web.common.dto.GetThongBaoSinhVien;
 import com.solienlac.khoaluan.web.common.dto.ThongTinSinhVienDto;
 import com.solienlac.khoaluan.web.common.dto.param.PostDonXinNghiHoc;
 import com.solienlac.khoaluan.web.common.dto.param.PutSinhVienParam;
+import com.solienlac.khoaluan.web.service.DiemService;
 import com.solienlac.khoaluan.web.service.DonXinNghiHocService;
 import com.solienlac.khoaluan.web.service.SinhVienService;
 import com.solienlac.khoaluan.web.service.ThongBaoService;
@@ -14,6 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/solienlacdientu/v1/sinhvien")
@@ -21,6 +25,7 @@ public class SinhVienApiController {
     private final DonXinNghiHocService donXinNghiHocService;
     private final SinhVienService sinhVienService;
     private final ThongBaoService thongBaoService;
+    private final DiemService diemService;
 
     @PostMapping("/donxinnghihoc/{idSinhVien}/{idLopHocPhan}")
     public Integer postDonXinNghiHoc(@PathVariable("idSinhVien") Integer idSinhVien
@@ -43,6 +48,13 @@ public class SinhVienApiController {
     public GetThongBaoSinhVien getDonXinNghiHoc(@PathVariable("idSinhVien") Integer idSinhVien,
                                                 @PageableDefault(size = 10, page = 1, direction = Sort.Direction.ASC) Pageable pageable){
         return thongBaoService.getThongBaoSinhVien(pageable,idSinhVien);
+
+
+    }
+
+    @GetMapping("/{idSinhVien}/diem")
+    public GetDiemSinhVien getDonXinNghiHoc(@PathVariable("idSinhVien") Integer idSinhVien){
+        return diemService.getDiemSinhViens(idSinhVien);
 
 
     }

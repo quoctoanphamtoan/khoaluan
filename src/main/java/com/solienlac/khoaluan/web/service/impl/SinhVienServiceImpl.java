@@ -5,6 +5,7 @@ import com.solienlac.khoaluan.web.common.dto.param.PutSinhVienParam;
 import com.solienlac.khoaluan.web.common.page.PaginationMeta;
 import com.solienlac.khoaluan.web.domain.Lop;
 import com.solienlac.khoaluan.web.domain.SinhVien;
+import com.solienlac.khoaluan.web.domain.SinhVien_LopHocPhan;
 import com.solienlac.khoaluan.web.repository.SinhVienCustomRepository;
 import com.solienlac.khoaluan.web.repository.SinhVienRepository;
 import com.solienlac.khoaluan.web.service.SinhVienService;
@@ -45,8 +46,18 @@ public class SinhVienServiceImpl implements SinhVienService {
     public GetSinhVienLopHoc getSinhVienLopHoc(Pageable pageable, Integer idLopHoc) {
         Page<SinhVien> page = sinhVienCustomRepository.listSinhVienLopHoc(pageable,idLopHoc);
         List<SinhVienLopHocDto> list =page.getContent().stream().map(sinhVien -> new SinhVienLopHocDto(sinhVien)).collect(Collectors.toList());
-//        list.forEach(sinhVienLopHocDto -> log.info("sinh vien->{}",sinhVienLopHocDto));
         PaginationMeta paginationMeta = PaginationMeta.createPagination(page);
         return new GetSinhVienLopHoc(list,paginationMeta);
+    }
+
+    @Override
+    public GetSinhVienLopHocPhan getSinhVienLopHocPhan(Pageable pageable,Integer idLopHocPhan) {
+        Page<SinhVien_LopHocPhan> page = sinhVienCustomRepository.listSinhVienLopHocPhan(pageable,idLopHocPhan);
+        log.info(page.getContent().size());
+        List<SinhVienLopHocPhanDto> list = page.getContent()
+                .stream().map(sinhVien_lopHocPhan -> new SinhVienLopHocPhanDto(sinhVien_lopHocPhan))
+                .collect(Collectors.toList());
+        PaginationMeta paginationMeta = PaginationMeta.createPagination(page);
+        return new GetSinhVienLopHocPhan(list,paginationMeta);
     }
 }

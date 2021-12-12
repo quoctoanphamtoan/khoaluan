@@ -30,10 +30,22 @@ public class ThongBaoServiceImpl implements ThongBaoService {
     @Override
     public GetThongBaoSinhVien getThongBaoSinhVien(Pageable pageable, Integer idSinhVien) {
         SinhVien sinhVien = sinhVienRepository.findById(idSinhVien).orElseThrow(() -> new IllegalArgumentException("id not foud"));
+        List<ThongBaoSinhVienDto> listCanhBao= sinhVien.getCanhBaoList()
+                .stream().map(canhBao -> new ThongBaoSinhVienDto(null,canhBao)).collect(Collectors.toList());
+
+
         Page<ThongBao> page = thongBaoCustomRepository.listThongBao(pageable,idSinhVien);
-        List<ThongBaoSinhVienDto> list = page.getContent().stream().map(thongBao -> new ThongBaoSinhVienDto(thongBao)).collect(Collectors.toList());
         PaginationMeta paginationMeta = PaginationMeta.createPagination(page);
-        return new GetThongBaoSinhVien(list,paginationMeta);
+        List<ThongBaoSinhVienDto> listThongBao = page.getContent().stream().map(thongBao -> new ThongBaoSinhVienDto(thongBao,null)).collect(Collectors.toList());
+        if (listCanhBao.size()>0&&pageable.getPageNumber()==0&&pageable.getPageSize()<=10){
+            listThongBao.stream().forEach(listCanhBao::add);
+            return new GetThongBaoSinhVien(listCanhBao,paginationMeta);
+        }
+
+
+        return new GetThongBaoSinhVien(listThongBao,paginationMeta);
+
+//        return null;
     }
 
     @Override

@@ -42,4 +42,7 @@ public class LopHocPhan {
     @OneToMany(mappedBy = "lopHocPhan")
     private List<SinhVien_LopHocPhan> sinhVien_lopHocPhans = new ArrayList<>();
 
+    public Integer getSiSo(){
+        return this.sinhVien_lopHocPhans.size();
+    }
 }

@@ -1,5 +1,6 @@
 package com.solienlac.khoaluan.web.common.dto;
 
+import com.solienlac.khoaluan.web.domain.CanhBao;
 import com.solienlac.khoaluan.web.domain.ThongBao;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

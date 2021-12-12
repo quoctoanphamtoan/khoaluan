@@ -35,7 +35,7 @@ public class PhuHuynh  extends AbstractEntity {
     private String email;
 
     @Column(name = "gioiTinh")
-    private Boolean gioiTinh;
+    private boolean gioiTinh;
 
 
     @Column(name = "trangThai")
@@ -54,7 +54,7 @@ public class PhuHuynh  extends AbstractEntity {
     private List<SinhVien> sinhVienList = new ArrayList<>();
 
 
-    public PhuHuynh(String hoTen, String diaChi, String soDienThoai, String email, Boolean gioiTinh,TaiKhoan taiKhoan) {
+    public PhuHuynh(String hoTen, String diaChi, String soDienThoai, String email, boolean gioiTinh,TaiKhoan taiKhoan) {
         this.hoTen = hoTen;
         this.diaChi = diaChi;
         this.soDienThoai = soDienThoai;

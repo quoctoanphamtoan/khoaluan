@@ -86,10 +86,8 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
         }
         if (taiKhoan.getRole()==Role.PHU_HUYNH){
             PhuHuynh ph = phuHuynhRepository.findBySoDienThoai(taiKhoanDangNhap.getTenDangNhap());
-            ph.setTaiKhoan(null);
-            ph.setSinhVienList(null);
             taiKhoanDangNhapResponse.setRole(Role.PHU_HUYNH);
-            taiKhoanDangNhapResponse.setThongTin(ph);
+            taiKhoanDangNhapResponse.setThongTin(new ThongTinPhuHuynhDto(ph));
         }
         return taiKhoanDangNhapResponse;
     }
@@ -167,6 +165,7 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
         }
 
         TaiKhoan taiKhoan = taiKhoanRepository.findByTenDangNhap(tenDangNhap);
+        log.info(taiKhoan.getRole());
         return new CheckAuthResponse(taiKhoan.getRole(),true);
     }
 

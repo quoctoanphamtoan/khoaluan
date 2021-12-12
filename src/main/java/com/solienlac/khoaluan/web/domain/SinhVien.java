@@ -12,6 +12,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "sinhvien")
@@ -54,7 +55,7 @@ public class SinhVien  extends AbstractEntity {
     private TaiKhoan taiKhoan;
 
     @OneToMany(mappedBy = "idSinhVien")
-    private List<CanhBao> canhBaoList;
+    private List<CanhBao> canhBaoList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idPhuHuynh")
@@ -64,10 +65,21 @@ public class SinhVien  extends AbstractEntity {
     @JoinColumn(name = "idLop")
     private Lop lop;
 
+    @OneToOne(mappedBy = "sinhVien")
+    private BangDiemTongKet bangDiemTongKet;
+
 
     @OneToMany(mappedBy = "sinhVien")
     private List<SinhVien_LopHocPhan> sinhVien_lopHocPhans = new ArrayList<>();
 
+
+    public LopHocPhan getLopHocPhan(Integer idLopHocPhan) {
+        return getSinhVien_lopHocPhans()
+                .stream().filter(sinhVien_lopHocPhan ->
+                {return sinhVien_lopHocPhan.getSinhVien()
+                        .id==this.id&&sinhVien_lopHocPhan.getLopHocPhan().getId()==idLopHocPhan;})
+                .findAny().orElseThrow(() -> new IllegalArgumentException("id not found! ")).getLopHocPhan();
+    }
 
     @OneToMany(mappedBy = "sinhVien")
     private List<DonXinNghiHoc> donXinNghiHocs= new ArrayList<>();

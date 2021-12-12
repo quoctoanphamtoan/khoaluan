@@ -1,5 +1,6 @@
 package com.solienlac.khoaluan.web.domain;
 
+import com.solienlac.khoaluan.web.common.dto.DiemSinhVienMonHocDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,7 @@ public class MonHoc {
 
     @OneToMany(mappedBy = "monHoc")
     private List<BangDiem_SinhVien_MonHoc> bangDiem_sinhVien_monHocs = new ArrayList<>();
+
 
 
 }

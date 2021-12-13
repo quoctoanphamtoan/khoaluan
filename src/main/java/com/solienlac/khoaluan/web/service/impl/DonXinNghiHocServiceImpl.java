@@ -2,22 +2,21 @@ package com.solienlac.khoaluan.web.service.impl;
 
 import com.solienlac.khoaluan.web.common.dto.DonXinNghiHocDto;
 import com.solienlac.khoaluan.web.common.dto.GetDonXinNghiHoc;
+import com.solienlac.khoaluan.web.common.dto.param.PostDiemDanh;
 import com.solienlac.khoaluan.web.common.dto.param.PostDonXinNghiHoc;
 import com.solienlac.khoaluan.web.common.page.PaginationMeta;
-import com.solienlac.khoaluan.web.domain.DonXinNghiHoc;
-import com.solienlac.khoaluan.web.domain.LopHocPhan;
-import com.solienlac.khoaluan.web.domain.SinhVien;
-import com.solienlac.khoaluan.web.repository.DonXinNghiHocCustomRepository;
-import com.solienlac.khoaluan.web.repository.DonXinNghiHocRepository;
-import com.solienlac.khoaluan.web.repository.LopHocPhanRepository;
-import com.solienlac.khoaluan.web.repository.SinhVienRepository;
+import com.solienlac.khoaluan.web.domain.*;
+import com.solienlac.khoaluan.web.repository.*;
 import com.solienlac.khoaluan.web.service.DonXinNghiHocService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +25,8 @@ public class DonXinNghiHocServiceImpl implements DonXinNghiHocService {
     private final LopHocPhanRepository lopHocPhanRepository;
     private final SinhVienRepository sinhVienRepository;
     private final DonXinNghiHocCustomRepository donXinNghiHocCustomRepository;
-
+    private final NgayNghiRepository ngayNghiRepository;
+    private final SinhVienLopHocPhanRepository sinhVienLopHocPhanRepository;
 
     @Override
     public Integer xinNghiHoc(Integer idSinhVien, Integer idLopHocPhan, PostDonXinNghiHoc postDonXinNghiHoc) {
@@ -52,6 +52,29 @@ public class DonXinNghiHocServiceImpl implements DonXinNghiHocService {
         });
         PaginationMeta paginationMeta = PaginationMeta.createPagination(page);
         return new GetDonXinNghiHoc(list,paginationMeta);
+    }
+
+    @Override
+    @Transactional
+    public Integer diemDanh(Integer idSinhVien, Integer idLopHocPhan, PostDiemDanh postDiemDanh) {
+        SinhVien sinhVien = sinhVienRepository.findById(idSinhVien)
+                .orElseThrow(() -> new IllegalArgumentException("id not found"));
+        LopHocPhan lopHocPhan = lopHocPhanRepository.findById(idLopHocPhan)
+                .orElseThrow(() -> new IllegalArgumentException("id not found"));
+        SinhVien_LopHocPhan sinhVien_lopHocPhan = sinhVienLopHocPhanRepository.findSinhVien_LopHocPhanBySinhVienAndLopHocPhan(sinhVien,lopHocPhan);
+        NgayNghi ngayNghi = ngayNghiRepository.save(new NgayNghi(postDiemDanh,sinhVien_lopHocPhan));
+        SinhVien_LopHocPhan svlhpCheck = sinhVienLopHocPhanRepository.findSinhVien_LopHocPhanBySinhVienAndLopHocPhan(sinhVien,lopHocPhan);
+
+        Integer soNgayNghiPhep = svlhpCheck.getNgayNghis()
+                .stream().filter(ngayNghiCheck ->ngayNghiCheck.isCoPhep()).collect(Collectors.toList()).size();
+
+        Integer soNgayNghiKhongPhep = svlhpCheck.getNgayNghis()
+                .stream().filter(ngayNghiCheck ->!ngayNghiCheck.isCoPhep()).collect(Collectors.toList()).size();
+        if (((soNgayNghiPhep/2)+soNgayNghiKhongPhep)>=3){
+            svlhpCheck.dinhChiHoc();
+        }
+
+        return ngayNghi.getId();
     }
 
 

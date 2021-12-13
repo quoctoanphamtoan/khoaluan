@@ -5,6 +5,7 @@ import com.solienlac.khoaluan.web.common.dto.GetDiemSinhVien;
 import com.solienlac.khoaluan.web.common.dto.param.PutBangDiemSinhVien;
 import com.solienlac.khoaluan.web.domain.BangDiem_SinhVien_MonHoc;
 import com.solienlac.khoaluan.web.domain.SinhVien;
+import com.solienlac.khoaluan.web.domain.SinhVien_LopHocPhan;
 import com.solienlac.khoaluan.web.repository.BangDiemSinhVienMonHocRepository;
 import com.solienlac.khoaluan.web.repository.DiemCustomRepository;
 import com.solienlac.khoaluan.web.repository.SinhVienRepository;
@@ -42,9 +43,33 @@ public class DiemServiceImpl implements DiemService {
                 .orElseThrow(() -> new IllegalArgumentException("id not foud!"));
          bangDiem_sinhVien_monHoc.suaDiem(putBangDiemSinhVien);
 
+         if(putBangDiemSinhVien.getGk()==0){
+             Integer idMonHoc = bangDiem_sinhVien_monHoc.getMonHoc().getId();
+             SinhVien_LopHocPhan sinhVien_lopHocPhanRs= bangDiem_sinhVien_monHoc.getBangDiemTongKet().getSinhVien().getSinhVien_lopHocPhans()
+                     .stream().filter(sinhVien_lopHocPhan -> sinhVien_lopHocPhan.getLopHocPhan().getMonHoc().getId()==idMonHoc)
+                     .findAny().orElseThrow(() -> new IllegalArgumentException("id not found"));
+             sinhVien_lopHocPhanRs.dinhChiHoc();
+         }
         SinhVien sinhVien = sinhVienRepository.findById(bangDiem_sinhVien_monHoc.getBangDiemTongKet().getSinhVien().getId())
                 .orElseThrow(() -> new IllegalArgumentException("id not found!"));
-        sinhVien.getBangDiemTongKet().setBangDiemTongKet(sinhVien.getBangDiemTongKet().getBangDiem_sinhVien_monHocs());
+        sinhVien.getBangDiemTongKet()
+
+
+                //set bang diem tong ket , voi dieu kien la so ngay nghi co phep /2 + so ngay nghi khong phep phai nho hon 3 va diem giua ki lon hon ko
+                //va neu nhu putdata co diem cuoi ki moi chay chuc nang nay
+                .setBangDiemTongKet(sinhVien.getBangDiemTongKet().getBangDiem_sinhVien_monHocs().stream().filter(
+                        bangDiemSinhVien ->bangDiemSinhVien.getDiemGK()>0
+                                &&((bangDiemSinhVien.getBangDiemTongKet().getSinhVien().getSinhVien_lopHocPhans()
+                                .stream().filter(sinhVien_lopHocPhan -> sinhVien_lopHocPhan.getSinhVien().getId()==sinhVien.getId())
+                                .findAny().orElseThrow(() -> new IllegalArgumentException("id not found")).getNgayNghis()
+                                .stream().filter(ngayNghi -> ngayNghi.isCoPhep()).collect(Collectors.toList()).size()/2)+
+                                (bangDiemSinhVien.getBangDiemTongKet().getSinhVien().getSinhVien_lopHocPhans()
+                                        .stream().filter(sinhVien_lopHocPhan -> sinhVien_lopHocPhan.getSinhVien().getId()==sinhVien.getId())
+                                        .findAny().orElseThrow(() -> new IllegalArgumentException("id not found")).getNgayNghis()
+                                        .stream().filter(ngayNghi -> !ngayNghi.isCoPhep()).collect(Collectors.toList()).size())
+                        )<3&&putBangDiemSinhVien.getCk()>=0
+                ).collect(Collectors.toList()));
+
 
         return bangDiem_sinhVien_monHoc.getId();
     }

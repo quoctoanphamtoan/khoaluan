@@ -13,6 +13,6 @@ public class HocKiDto {
     private String nam;
     private String ki;
     private List<DiemSinhVienDto> diemSinhVienDtos;
-    private float tongKetKi;
+    private double tongKetKi;
 
 }

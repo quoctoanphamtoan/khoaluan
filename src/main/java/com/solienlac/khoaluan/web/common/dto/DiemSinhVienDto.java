@@ -11,13 +11,13 @@ import lombok.NoArgsConstructor;
 public class DiemSinhVienDto {
     private Integer id;
     private String tenMonHoc;
-    private float tk1;
-    private float tk2;
-    private float tk3;
-    private float gk;
-    private float ck;
-    private float tbc;
-//    private boolean trangThai;
+    private double tk1;
+    private double tk2;
+    private double tk3;
+    private double gk;
+    private double ck;
+    private double tbc;
+    private boolean trangThai;
 
     public DiemSinhVienDto(BangDiem_SinhVien_MonHoc bangDiem_sinhVien_monHoc){
         this.id = bangDiem_sinhVien_monHoc.getId();
@@ -28,7 +28,12 @@ public class DiemSinhVienDto {
         this.gk = bangDiem_sinhVien_monHoc.getDiemGK();
         this.ck = bangDiem_sinhVien_monHoc.getDiemCK();
         this.tbc = bangDiem_sinhVien_monHoc.getDiemTBC();
-//        this.trangThai = bangDiem_sinhVien_monHoc.get
+        this.trangThai = bangDiem_sinhVien_monHoc
+                .getBangDiemTongKet().getSinhVien()
+                .getSinhVien_lopHocPhans().stream()
+                .filter(sinhVien_lopHocPhan ->
+                        sinhVien_lopHocPhan.getSinhVien().getId()==bangDiem_sinhVien_monHoc.getBangDiemTongKet().getSinhVien().getId())
+                .findAny().orElseThrow(() -> new IllegalArgumentException("id not found")).isTrangThai();
     }
 
 }

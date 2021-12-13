@@ -3,6 +3,7 @@ package com.solienlac.khoaluan.web.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class BangDiemTongKet {
     private Integer id;
 
     @Column(name = "diemTbTL")
-    private float trungBinhTichLuy;
+    private double trungBinhTichLuy;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idSinhVien")
@@ -31,11 +32,15 @@ public class BangDiemTongKet {
     private List<BangDiem_SinhVien_MonHoc> bangDiem_sinhVien_monHocs = new ArrayList<>();
 
     public void setBangDiemTongKet(List<BangDiem_SinhVien_MonHoc> list){
-        final float[] diemsinhvien = {0};
+        final double[] diemsinhvien = {0};
          list.forEach(diem ->{
              diemsinhvien[0] = diemsinhvien[0] +diem.getDiemTBC();
          });
-         this.trungBinhTichLuy = diemsinhvien[0]/list.size();
+         if (diemsinhvien[0]>0){
+             this.trungBinhTichLuy = diemsinhvien[0]/list.size();
+         }else {
+             this.trungBinhTichLuy=0;
+         }
     }
 
 }

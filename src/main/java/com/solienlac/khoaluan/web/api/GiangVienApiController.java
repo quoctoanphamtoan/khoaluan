@@ -1,9 +1,7 @@
 package com.solienlac.khoaluan.web.api;
 
 import com.solienlac.khoaluan.web.common.dto.*;
-import com.solienlac.khoaluan.web.common.dto.param.PostSmsCanhBao;
-import com.solienlac.khoaluan.web.common.dto.param.PostThongBaoLop;
-import com.solienlac.khoaluan.web.common.dto.param.PutBangDiemSinhVien;
+import com.solienlac.khoaluan.web.common.dto.param.*;
 import com.solienlac.khoaluan.web.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +26,7 @@ public class GiangVienApiController {
     private final CanhBaoService canhBaoService;
     private final LopHocPhanService lopHocPhanService;
     private final DiemService diemService;
+    private final NgayNghiService ngayNghiService;
     /*
      *Lấy danh sách tất cả lớp học của giảng viên theo mã giảng viên(idGiangVien)
      * Giá trị trả về bao gồm:
@@ -114,6 +113,24 @@ public class GiangVienApiController {
                                                   @RequestBody PutBangDiemSinhVien putBangDiemSinhVien){
         return diemService.chinhSuaBangDiemSinhVienMonHoc(idBangDiem,putBangDiemSinhVien);
     }
+
+    @PostMapping("/{idSinhVien}/{idLopHocPhan}/diemdanh")
+    public Integer diemDanh(@PathVariable("idSinhVien") Integer idSinhVien,
+                                                  @PathVariable("idLopHocPhan") Integer idLopHocPhan,
+                                                  @RequestBody PostDiemDanh postDiemDanh){
+        return donXinNghiHocService.diemDanh(idSinhVien, idLopHocPhan, postDiemDanh);
+    }
+
+    @GetMapping("/{idSinhVienLhp}/ngaynghis")
+    public List<NgayNghiDto> getNgayNghis(@PathVariable Integer idSinhVienLhp){
+        return ngayNghiService.listNgayNghiDtoOfSinhVienLhp(idSinhVienLhp);
+    }
+
+    @DeleteMapping("/ngaynghis/{id}")
+    public ResponseEntity xoaNgayNghi(@PathVariable Integer id){
+        return ngayNghiService.xoaNgayNghi(id);
+    }
+
 
 
 }

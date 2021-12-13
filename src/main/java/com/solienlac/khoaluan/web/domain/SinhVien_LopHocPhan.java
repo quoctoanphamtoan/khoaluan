@@ -30,4 +30,14 @@ public class SinhVien_LopHocPhan implements Serializable {
 
     @OneToMany(mappedBy = "sinhVien_lopHocPhan")
     private List<NgayNghi> ngayNghis = new ArrayList<>();
+
+    public void dinhChiHoc(){
+        this.trangThai =false;
+    }
+
+    public void choHocLai(){
+        this.trangThai =true;
+//        this.getLopHocPhan().getLop
+    }
+
 }

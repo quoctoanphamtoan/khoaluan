@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 public class GetDiemSinhVien {
     private List<DiemSinhVienDto> diemSinhVienDtos;
-    private float diemTongKet;
+    private double diemTongKet;
     public GetDiemSinhVien(BangDiem_SinhVien_MonHoc bangDiem_sinhVien_monHoc){
         this.diemTongKet = bangDiem_sinhVien_monHoc.getBangDiemTongKet().getTrungBinhTichLuy();
     }

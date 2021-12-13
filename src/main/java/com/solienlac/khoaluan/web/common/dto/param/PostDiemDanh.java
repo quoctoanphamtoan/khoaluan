@@ -4,12 +4,11 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PutBangDiemSinhVien {
-    private double tk1;
-    private double tk2;
-    private double tk3;
-    private double gk;
-    private double ck;
+public class PostDiemDanh {
+    private boolean phep;
+    private Date date;
 }

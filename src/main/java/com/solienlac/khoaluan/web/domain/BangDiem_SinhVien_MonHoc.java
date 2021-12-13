@@ -18,13 +18,13 @@ public class BangDiem_SinhVien_MonHoc {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private float diemCK;
-    private float diemGK;
+    private double diemCK;
+    private double diemGK;
 
-    private float diemTK1;
-    private float diemTK2;
-    private float diemTK3;
-    private float diemTBC;
+    private double diemTK1;
+    private double diemTK2;
+    private double diemTK3;
+    private double diemTBC;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idMonHoc")
@@ -39,10 +39,17 @@ public class BangDiem_SinhVien_MonHoc {
         this.diemTK2 = putBangDiemSinhVien.getTk2();
         this.diemTK3 = putBangDiemSinhVien.getTk3();
         this.diemGK = putBangDiemSinhVien.getGk();
-        this.diemCK = putBangDiemSinhVien.getCk();
-        float dtbc =(float)((((this.diemTK1+this.diemTK2+this.diemTK3)/3)*0.2)+(this.diemGK*0.3)+this.diemCK*0.5);
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
-        this.diemTBC = Float.valueOf(decimalFormat.format(dtbc));
+        if (putBangDiemSinhVien.getGk()<=0){
+            this.diemCK=Double.valueOf("0.0");
+            this.diemTBC = Double.valueOf("0.0");
+            return;
+        }else {
+            this.diemCK = putBangDiemSinhVien.getCk();
+            double dtbc =(((this.diemTK1+this.diemTK2+this.diemTK3)/3)*0.2)+(this.diemGK*0.3)+this.diemCK*0.5;
+            DecimalFormat decimalFormat = new DecimalFormat("#.##");
+            this.diemTBC = Double.valueOf(decimalFormat.format(dtbc));
+        }
+
 
     }
 }

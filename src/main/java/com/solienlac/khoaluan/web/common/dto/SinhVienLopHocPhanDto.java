@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Log4j2
 public class SinhVienLopHocPhanDto {
+    private Integer idSvLhp;
     private Integer id;
     private String hoTen;
     private DiemSinhVienMonHocDto diemSinhVienMonHocDto;
@@ -27,6 +28,7 @@ public class SinhVienLopHocPhanDto {
     private boolean trangThai;
 
     public SinhVienLopHocPhanDto(SinhVien_LopHocPhan sinhVien_lopHocPhan){
+        this.idSvLhp = sinhVien_lopHocPhan.getId();
         this.id=sinhVien_lopHocPhan.getSinhVien().getId();
         this.hoTen = sinhVien_lopHocPhan.getSinhVien().getHoTen();
 
@@ -34,8 +36,6 @@ public class SinhVienLopHocPhanDto {
                 .stream().filter(
                         bangDiem_sinhVien_monHoc -> bangDiem_sinhVien_monHoc.getBangDiemTongKet().getSinhVien().getId()==sinhVien_lopHocPhan.getSinhVien().getId()
                 ).findAny().orElseThrow(() -> new IllegalArgumentException("id not found")));
-        this.soNgayNghiKhongPhep = sinhVien_lopHocPhan.getNgayNghis().size();
-        this.soNgayNghiPhep =sinhVien_lopHocPhan.getNgayNghis().size();
         this.trangThai = sinhVien_lopHocPhan.isTrangThai();
         List<NgayNghi> ngayNghiList= sinhVien_lopHocPhan.getLopHocPhan().getSinhVien_lopHocPhans().stream().filter(svlhp ->
                 svlhp.getSinhVien().getId()==sinhVien_lopHocPhan.getSinhVien().getId())

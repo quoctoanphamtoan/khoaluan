@@ -68,4 +68,16 @@ public class ThongBaoCustomRepositoryImpl implements ThongBaoCustomRepository {
                 .offset(pageable.getPageNumber()*pageable.getPageSize()).limit(pageable.getPageSize());
         return PageableExecutionUtils.getPage(query.fetch(), pageable, query::fetchCount);
     }
+
+    @Override
+    public Page<ThongBao> thongBaoLopHocPhanSinhVien(Pageable pageable, Integer idGiangVien, Integer idLopHocPhan) {
+        JPAQuery query = new JPAQueryFactory(em)
+                .selectFrom(thongBao)
+                .join(thongBao.thongBao_lopHocPhans,thongBao_lopHocPhan)
+                .join(thongBao_lopHocPhan.lopHocPhan,lopHocPhan)
+                .where(lopHocPhan.id.eq(idLopHocPhan),thongBao.giangVien.id.eq(idGiangVien))
+                .orderBy(thongBao.ngayTao.desc())
+                .offset(pageable.getPageNumber()*pageable.getPageSize()).limit(pageable.getPageSize());
+        return PageableExecutionUtils.getPage(query.fetch(), pageable, query::fetchCount);
+    }
 }

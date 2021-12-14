@@ -1,15 +1,11 @@
 package com.solienlac.khoaluan.web.api;
 
-import com.solienlac.khoaluan.web.common.dto.DiemSinhVienDto;
-import com.solienlac.khoaluan.web.common.dto.GetDiemSinhVien;
-import com.solienlac.khoaluan.web.common.dto.GetThongBaoSinhVien;
-import com.solienlac.khoaluan.web.common.dto.ThongTinSinhVienDto;
+import com.solienlac.khoaluan.web.common.dto.*;
 import com.solienlac.khoaluan.web.common.dto.param.PostDonXinNghiHoc;
 import com.solienlac.khoaluan.web.common.dto.param.PutSinhVienParam;
-import com.solienlac.khoaluan.web.service.DiemService;
-import com.solienlac.khoaluan.web.service.DonXinNghiHocService;
-import com.solienlac.khoaluan.web.service.SinhVienService;
-import com.solienlac.khoaluan.web.service.ThongBaoService;
+import com.solienlac.khoaluan.web.common.dto.param.XinNghiHocParam;
+import com.solienlac.khoaluan.web.domain.LopHocPhan;
+import com.solienlac.khoaluan.web.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -26,6 +22,7 @@ public class SinhVienApiController {
     private final SinhVienService sinhVienService;
     private final ThongBaoService thongBaoService;
     private final DiemService diemService;
+    private final LopHocPhanService lopHocPhanService;
 
     @PostMapping("/donxinnghihoc/{idSinhVien}/{idLopHocPhan}")
     public Integer postDonXinNghiHoc(@PathVariable("idSinhVien") Integer idSinhVien
@@ -55,8 +52,16 @@ public class SinhVienApiController {
     @GetMapping("/{idSinhVien}/diem")
     public GetDiemSinhVien getDonXinNghiHoc(@PathVariable("idSinhVien") Integer idSinhVien){
         return diemService.getDiemSinhViens(idSinhVien);
-
-
     }
+    //
+    @GetMapping("/{idSinhVien}/lophocphan")
+    public List<LopHocPhanOfSinhVienDto> getLopHocPhan(@PathVariable("idSinhVien") Integer idSinhVien){
+        return lopHocPhanService.getLopHocPhanOfSinhVien(idSinhVien);
+    }
+    @PostMapping("/donxinnghihoc")
+    public Integer xinNghiHoc(@RequestBody XinNghiHocParam xinNghiHocParam){
+        return donXinNghiHocService.xinNghiHoc(xinNghiHocParam);
+    }
+
 
 }

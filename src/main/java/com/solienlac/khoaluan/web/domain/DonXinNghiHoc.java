@@ -1,5 +1,6 @@
 package com.solienlac.khoaluan.web.domain;
 
+import com.solienlac.khoaluan.web.common.dto.param.XinNghiHocParam;
 import com.solienlac.khoaluan.web.domain.common.AbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,6 +40,12 @@ public class DonXinNghiHoc extends AbstractEntity {
 
         this.noiDung = noiDung;
         this.ngayNghi = ngayNghi;
+        this.sinhVien = sinhVien;
+        this.lopHocPhan = lopHocPhan;
+    }
+    public DonXinNghiHoc(XinNghiHocParam xinNghiHocParam,SinhVien sinhVien,LopHocPhan lopHocPhan){
+        this.noiDung = xinNghiHocParam.getLyDo();
+        this.ngayNghi = xinNghiHocParam.getNgayNghi();
         this.sinhVien = sinhVien;
         this.lopHocPhan = lopHocPhan;
     }

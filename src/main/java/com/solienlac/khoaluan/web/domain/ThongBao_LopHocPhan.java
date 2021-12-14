@@ -23,5 +23,8 @@ public class ThongBao_LopHocPhan {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idLopHocPhan")
     private LopHocPhan lopHocPhan;
-
+    public ThongBao_LopHocPhan(ThongBao thongBao, LopHocPhan lopHocPhan) {
+        this.thongBao = thongBao;
+        this.lopHocPhan = lopHocPhan;
+    }
 }

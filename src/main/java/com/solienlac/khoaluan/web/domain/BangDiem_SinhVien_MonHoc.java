@@ -34,6 +34,10 @@ public class BangDiem_SinhVien_MonHoc {
     @JoinColumn(name = "idBangDiemTongKet")
     private BangDiemTongKet bangDiemTongKet;
 
+    public void huyDiem(){
+        this.diemTBC=0;
+        this.diemCK=0;
+    }
     public void suaDiem(PutBangDiemSinhVien putBangDiemSinhVien){
         this.diemTK1 = putBangDiemSinhVien.getTk1();
         this.diemTK2 = putBangDiemSinhVien.getTk2();

@@ -21,6 +21,8 @@ import java.util.stream.Collectors;
 public class SinhVienLopHocPhanDto {
     private Integer idSvLhp;
     private Integer id;
+    private String maSV;
+    private String email;
     private String hoTen;
     private DiemSinhVienMonHocDto diemSinhVienMonHocDto;
     private Integer soNgayNghiPhep;
@@ -31,7 +33,8 @@ public class SinhVienLopHocPhanDto {
         this.idSvLhp = sinhVien_lopHocPhan.getId();
         this.id=sinhVien_lopHocPhan.getSinhVien().getId();
         this.hoTen = sinhVien_lopHocPhan.getSinhVien().getHoTen();
-
+        this.email = sinhVien_lopHocPhan.getSinhVien().getEmail();
+        this.maSV = sinhVien_lopHocPhan.getSinhVien().getMaSinhvVien();
         this.diemSinhVienMonHocDto = new DiemSinhVienMonHocDto(sinhVien_lopHocPhan.getSinhVien().getBangDiemTongKet().getBangDiem_sinhVien_monHocs()
                 .stream().filter(
                         bangDiem_sinhVien_monHoc -> bangDiem_sinhVien_monHoc.getBangDiemTongKet().getSinhVien().getId()==sinhVien_lopHocPhan.getSinhVien().getId()

@@ -4,6 +4,7 @@ import com.solienlac.khoaluan.web.common.dto.DonXinNghiHocDto;
 import com.solienlac.khoaluan.web.common.dto.GetDonXinNghiHoc;
 import com.solienlac.khoaluan.web.common.dto.param.PostDiemDanh;
 import com.solienlac.khoaluan.web.common.dto.param.PostDonXinNghiHoc;
+import com.solienlac.khoaluan.web.common.dto.param.XinNghiHocParam;
 import com.solienlac.khoaluan.web.common.page.PaginationMeta;
 import com.solienlac.khoaluan.web.domain.*;
 import com.solienlac.khoaluan.web.repository.*;
@@ -27,6 +28,8 @@ public class DonXinNghiHocServiceImpl implements DonXinNghiHocService {
     private final DonXinNghiHocCustomRepository donXinNghiHocCustomRepository;
     private final NgayNghiRepository ngayNghiRepository;
     private final SinhVienLopHocPhanRepository sinhVienLopHocPhanRepository;
+    private final DiemTongKetRepository diemTongKetRepository;
+    private final BangDiemSinhVienMonHocRepository bangDiemSinhVienMonHocRepository;
 
     @Override
     public Integer xinNghiHoc(Integer idSinhVien, Integer idLopHocPhan, PostDonXinNghiHoc postDonXinNghiHoc) {
@@ -72,9 +75,24 @@ public class DonXinNghiHocServiceImpl implements DonXinNghiHocService {
                 .stream().filter(ngayNghiCheck ->!ngayNghiCheck.isCoPhep()).collect(Collectors.toList()).size();
         if (((soNgayNghiPhep/2)+soNgayNghiKhongPhep)>=3){
             svlhpCheck.dinhChiHoc();
+            BangDiem_SinhVien_MonHoc bangDiem_sinhVien_monHoc = bangDiemSinhVienMonHocRepository.findByBangDiemTongKet(svlhpCheck.getSinhVien().getBangDiemTongKet());
+            bangDiem_sinhVien_monHoc.huyDiem();
+
         }
 
         return ngayNghi.getId();
+    }
+
+    @Override
+    public Integer xinNghiHoc(XinNghiHocParam xinNghiHocParam) {
+        SinhVien_LopHocPhan sinhVien_lopHocPhan = sinhVienLopHocPhanRepository.findById(xinNghiHocParam.getId())
+                .orElseThrow(() -> new IllegalArgumentException("id not found!"));
+
+        SinhVien sinhVien = sinhVienRepository.findById(sinhVien_lopHocPhan.getSinhVien().getId())
+                .orElseThrow(() -> new IllegalArgumentException("id not found"));
+        LopHocPhan lopHocPhan = lopHocPhanRepository.findById(sinhVien_lopHocPhan.getLopHocPhan().getId())
+                .orElseThrow(() -> new IllegalArgumentException("id not found !"));
+        return donXinNghiHocRepository.save(new DonXinNghiHoc(xinNghiHocParam,sinhVien,lopHocPhan)).getId();
     }
 
 

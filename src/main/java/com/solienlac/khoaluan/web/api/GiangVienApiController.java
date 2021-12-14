@@ -86,17 +86,35 @@ public class GiangVienApiController {
                                                        @PageableDefault(size = 10, page = 1, direction = Sort.Direction.ASC) Pageable pageable){
         return thongBaoService.getThongBaoLopOfGiangVien(pageable,idGiangVien,idLopHoc);
     }
+    @GetMapping("/{idGiangVien}/{idLopHoc}/thongbaolophocphan")
+    public GetThongBaoLopOfGiangVien getThongBaoLopHocPhanOfGiangVien(@PathVariable("idGiangVien") Integer idLopHoc,@PathVariable("idLopHoc") Integer idGiangVien,
+                                                               @PageableDefault(size = 10, page = 1, direction = Sort.Direction.ASC) Pageable pageable){
+        return thongBaoService.getThongBaoLopHocPhanOfGiangVien(pageable,idGiangVien,idLopHoc);
+    }
+
 
     @PostMapping("/{idGiangVien}/{idLop}/thongbaolop")
     public Integer taoThongBaoLopHoc(@PathVariable("idGiangVien") Integer idGiangVien, @PathVariable("idLop") Integer idLop
             , @RequestBody PostThongBaoLop postThongBaoLop){
         return thongBaoService.themThongBaoLop(idGiangVien,idLop,postThongBaoLop);
     }
+
+    @PostMapping("/{idGiangVien}/{idLopHocPhan}/thongbaolophocphan")
+    public Integer taoThongBaoLopHocPhan(@PathVariable("idGiangVien") Integer idGiangVien, @PathVariable("idLopHocPhan") Integer idLopHocPhan
+            , @RequestBody PostThongBaoLop postThongBaoLop){
+        return thongBaoService.themThongBaoLopHocPhan(idGiangVien,idLopHocPhan,postThongBaoLop);
+    }
+
+
     @PutMapping("/{idThongBao}/thongbaolop")
     public Integer chinhSuaThongBaoLopHoc(@PathVariable("idThongBao") Integer idThongBao
             , @RequestBody PostThongBaoLop postThongBaoLop){
         return thongBaoService.chinhSuaThongBaoLop(idThongBao,postThongBaoLop);
     }
+
+
+
+
     @PutMapping("/{idThongBao}/thongbaolop/hienthi")
     public Integer chinhSuaHienThiThongBaoLopHoc(@PathVariable("idThongBao") Integer idThongBao){
         return thongBaoService.chinhSuaHienThiThongBaoLop(idThongBao);

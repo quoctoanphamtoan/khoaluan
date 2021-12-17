@@ -26,6 +26,7 @@ trang thai
 public class DonXinNghiHocDto {
     private Integer idDonXinNghiHoc;
     private Integer idSinhVien;
+    private String maSV;
     private String tenSinhVien;
     private String tenLopHocPhan;
     private Date ngayNghi;
@@ -34,6 +35,7 @@ public class DonXinNghiHocDto {
     private String noiDung;
 
     public DonXinNghiHocDto(DonXinNghiHoc donXinNghiHoc){
+        this.maSV = donXinNghiHoc.getSinhVien().getMaSinhvVien();
         this.idDonXinNghiHoc = donXinNghiHoc.getId();
         this.idSinhVien=donXinNghiHoc.getSinhVien().getId();
         this.tenSinhVien=donXinNghiHoc.getSinhVien().getHoTen();

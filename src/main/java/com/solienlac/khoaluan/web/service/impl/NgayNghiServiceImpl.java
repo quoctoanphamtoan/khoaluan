@@ -2,7 +2,6 @@ package com.solienlac.khoaluan.web.service.impl;
 
 import com.solienlac.khoaluan.web.common.dto.NgayNghiDto;
 import com.solienlac.khoaluan.web.domain.NgayNghi;
-import com.solienlac.khoaluan.web.domain.SinhVien;
 import com.solienlac.khoaluan.web.domain.SinhVien_LopHocPhan;
 import com.solienlac.khoaluan.web.repository.NgayNghiRepository;
 import com.solienlac.khoaluan.web.repository.SinhVienLopHocPhanRepository;
@@ -11,7 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +32,7 @@ public class NgayNghiServiceImpl implements NgayNghiService {
 
     @Override
     @Transactional
-    public ResponseEntity<Void> xoaNgayNghi(Integer idNgayNghi) {
+    public ResponseEntity<Void> xoaNgayNghi(@NotEmpty @NotNull Integer idNgayNghi) {
         NgayNghi ngayNghi = ngayNghiRepository.findById(idNgayNghi).orElseThrow(() -> new IllegalArgumentException("id not found"));
         SinhVien_LopHocPhan svlhpCheck= ngayNghi.getSinhVien_lopHocPhan();
         Integer soNgayNghiPhep = svlhpCheck.getNgayNghis()
@@ -38,7 +40,7 @@ public class NgayNghiServiceImpl implements NgayNghiService {
 
         Integer soNgayNghiKhongPhep = svlhpCheck.getNgayNghis()
                 .stream().filter(ngayNghiCheck ->!ngayNghiCheck.isCoPhep()).collect(Collectors.toList()).size();
-        if (((soNgayNghiPhep/2)+soNgayNghiKhongPhep)<3){
+        if (((soNgayNghiPhep/2)+soNgayNghiKhongPhep)<4){
             svlhpCheck.choHocLai();
         }else {
             svlhpCheck.dinhChiHoc();

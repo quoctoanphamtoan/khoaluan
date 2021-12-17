@@ -17,9 +17,15 @@ import com.twilio.type.PhoneNumber;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Service
 @RequiredArgsConstructor
+@Validated
 public class SmsSenderServiceImpl implements SmsSenderService {
     private final TwilioConfig twilioConfig ;
     private final SinhVienRepository sinhVienRepository;

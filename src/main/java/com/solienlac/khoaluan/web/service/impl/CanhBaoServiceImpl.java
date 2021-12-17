@@ -5,7 +5,10 @@ import com.solienlac.khoaluan.web.repository.CanhBaoCustomRepository;
 import com.solienlac.khoaluan.web.service.CanhBaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 

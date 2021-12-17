@@ -11,7 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +22,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LopServiceImpl implements LopService {
     private final LopQueryRepository lopQueryRepository;
-    private final GiangVienRepository giangVienRepository;
 
     @Override
     public GetLop getLop(Pageable pageable,Integer idGiangVien) {

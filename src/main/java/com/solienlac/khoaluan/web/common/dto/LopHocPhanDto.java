@@ -16,11 +16,16 @@ public class LopHocPhanDto {
     private Integer idMonHoc;
     private String tenMonHoc;
     private Integer siSo;
+    private String chuyenNganh;
+    private String thu;
+    private String hocKi;
     public LopHocPhanDto(LopHocPhan lopHocPhan){
         this.id = lopHocPhan.getId();
         this.tenLopHocPhan = lopHocPhan.getTenLopHP();
         this.idMonHoc = lopHocPhan.getMonHoc().getId();
         this.tenMonHoc = lopHocPhan.getMonHoc().getTenMonHoc();
         this.siSo = lopHocPhan.getSiSo();
+        this.thu =lopHocPhan.getThu();
+        this.hocKi = lopHocPhan.getHocKi();
     }
 }

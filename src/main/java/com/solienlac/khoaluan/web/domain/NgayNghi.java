@@ -32,4 +32,13 @@ public class NgayNghi {
         this.ngayNghi = postDiemDanh.getDate();
         this.sinhVien_lopHocPhan = sinhVien_lopHocPhan;
     }
+
+    public NgayNghi(Date date,SinhVien_LopHocPhan sinhVien_lopHocPhan){
+        this.coPhep = true;
+        this.ngayNghi = date;
+        this.sinhVien_lopHocPhan = sinhVien_lopHocPhan;
+    }
+
+
+
 }

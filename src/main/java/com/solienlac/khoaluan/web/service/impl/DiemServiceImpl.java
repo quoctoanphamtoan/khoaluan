@@ -15,12 +15,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Log4j2
 public class DiemServiceImpl implements DiemService {
     private final SinhVienService sinhVienService;
     private final SinhVienRepository sinhVienRepository;
@@ -42,7 +44,12 @@ public class DiemServiceImpl implements DiemService {
         BangDiem_SinhVien_MonHoc bangDiem_sinhVien_monHoc = bangDiemSinhVienMonHocRepository.findById(idBangDiem)
                 .orElseThrow(() -> new IllegalArgumentException("id not foud!"));
          bangDiem_sinhVien_monHoc.suaDiem(putBangDiemSinhVien);
-
+        if (putBangDiemSinhVien.getGk()>0&&putBangDiemSinhVien.getGk()>0){
+            SinhVien_LopHocPhan sinhVien_lopHocPhanRs= bangDiem_sinhVien_monHoc.getBangDiemTongKet().getSinhVien().getSinhVien_lopHocPhans()
+                    .stream().filter(sinhVien_lopHocPhan -> sinhVien_lopHocPhan.getLopHocPhan().getMonHoc().getId()==bangDiem_sinhVien_monHoc.getMonHoc().getId())
+                    .findAny().orElseThrow(() -> new IllegalArgumentException("id not found"));
+            sinhVien_lopHocPhanRs.choHocLai();
+        }
          if(putBangDiemSinhVien.getGk()==0){
              Integer idMonHoc = bangDiem_sinhVien_monHoc.getMonHoc().getId();
              SinhVien_LopHocPhan sinhVien_lopHocPhanRs= bangDiem_sinhVien_monHoc.getBangDiemTongKet().getSinhVien().getSinhVien_lopHocPhans()

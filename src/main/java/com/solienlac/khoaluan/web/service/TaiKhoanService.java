@@ -11,14 +11,17 @@ import com.solienlac.khoaluan.web.domain.TaiKhoan;
 import com.solienlac.khoaluan.web.domain.common.Role;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.List;
 
 public interface TaiKhoanService {
     List<TaiKhoan> getAll();
     TaiKhoanDangNhapResponse userLogin(TaiKhoanDangNhap taiKhoanDangNhap);
-    Integer dangKi(DangKiParam taiKhoan);
+    Integer dangKi( DangKiParam taiKhoan);
     CheckAuthResponse checkAuth(CheckAuthParam checkAuthParam);
     Integer doiMatKhau(PutMatKhau putMatKhau);
-    String uploadImgUrl(Integer id, MultipartFile file);
+    String uploadImgUrl(Integer id,MultipartFile file);
 }

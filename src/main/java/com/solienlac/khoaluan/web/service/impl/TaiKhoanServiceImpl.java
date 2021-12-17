@@ -29,9 +29,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -179,13 +183,39 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
                 throw new IllegalArgumentException("password error!");
             }
             if (!putMatKhau.getNewPassword().equalsIgnoreCase(putMatKhau.getConfirmPassword())){
-                throw new IllegalArgumentException("password khong gioong!");
+                throw new IllegalArgumentException("password confirm sai!");
             }
             String has = BCrypt.hashpw(putMatKhau.getNewPassword(),BCrypt.gensalt());
             sinhVien.getTaiKhoan().setMatKhau(has);
             return 1;
         }
 
+         if(putMatKhau.getRole().toString().equalsIgnoreCase(Role.GIANG_VIEN.toString())){
+            GiangVien giangVien =giangVienRepository.findById(putMatKhau.getId())
+                    .orElseThrow(() -> new IllegalArgumentException("id not found!"));
+            if(!BCrypt.checkpw(putMatKhau.getPassword(),giangVien.getTaiKhoan().getMatKhau())){
+                throw new IllegalArgumentException("password error!");
+            }
+            if (!putMatKhau.getNewPassword().equalsIgnoreCase(putMatKhau.getConfirmPassword())){
+                throw new IllegalArgumentException("password confirm sai!");
+            }
+            String has = BCrypt.hashpw(putMatKhau.getNewPassword(),BCrypt.gensalt());
+            giangVien.getTaiKhoan().setMatKhau(has);
+            return 1;
+        }
+        if(putMatKhau.getRole().toString().equalsIgnoreCase(Role.PHU_HUYNH.toString())) {
+            PhuHuynh phuHuynh =phuHuynhRepository.findById(putMatKhau.getId())
+                    .orElseThrow(() -> new IllegalArgumentException("id not found!"));
+            if(!BCrypt.checkpw(putMatKhau.getPassword(),phuHuynh.getTaiKhoan().getMatKhau())){
+                throw new IllegalArgumentException("password error!");
+            }
+            if (!putMatKhau.getNewPassword().equalsIgnoreCase(putMatKhau.getConfirmPassword())){
+                throw new IllegalArgumentException("password confirm sai!");
+            }
+            String has = BCrypt.hashpw(putMatKhau.getNewPassword(),BCrypt.gensalt());
+            phuHuynh.getTaiKhoan().setMatKhau(has);
+            return 1;
+        }
 
 
         return -1;
@@ -193,7 +223,7 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
 
     @Override
     @Transactional
-    public String uploadImgUrl(Integer id, MultipartFile file) {
+    public String uploadImgUrl(Integer id,MultipartFile file) {
         String urlImg =  amazonClient.uploadFile(file);
         SinhVien sinhVien = sinhVienRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("id not found!"));

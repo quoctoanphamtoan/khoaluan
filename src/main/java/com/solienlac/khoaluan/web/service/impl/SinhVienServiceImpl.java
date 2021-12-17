@@ -15,7 +15,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,6 +28,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Log4j2
+@Validated
 public class SinhVienServiceImpl implements SinhVienService {
     private final SinhVienRepository sinhVienRepository;
     private final SinhVienCustomRepository sinhVienCustomRepository;
@@ -43,7 +48,7 @@ public class SinhVienServiceImpl implements SinhVienService {
     }
 
     @Override
-    public GetSinhVienLopHoc getSinhVienLopHoc(Pageable pageable, Integer idLopHoc) {
+    public GetSinhVienLopHoc getSinhVienLopHoc(Pageable pageable,Integer idLopHoc) {
         Page<SinhVien> page = sinhVienCustomRepository.listSinhVienLopHoc(pageable,idLopHoc);
         List<SinhVienLopHocDto> list =page.getContent().stream().map(sinhVien -> new SinhVienLopHocDto(sinhVien)).collect(Collectors.toList());
         PaginationMeta paginationMeta = PaginationMeta.createPagination(page);

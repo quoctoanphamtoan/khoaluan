@@ -14,7 +14,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,13 +34,13 @@ public class ThongBaoServiceImpl implements ThongBaoService {
     private final LopHocPhanRepository lopHocPhanRepository;
     private final ThongBaoLopHocPhanRepository thongBaoLopHocPhanRepository;
     @Override
-    public GetThongBaoSinhVien getThongBaoSinhVien(Pageable pageable, Integer idSinhVien) {
+    public GetThongBaoSinhVien getThongBaoSinhVien(Pageable pageable,Integer idSinhVien) {
         SinhVien sinhVien = sinhVienRepository.findById(idSinhVien).orElseThrow(() -> new IllegalArgumentException("id not foud"));
         List<ThongBaoSinhVienDto> listCanhBao= sinhVien.getCanhBaoList()
                 .stream().map(canhBao -> new ThongBaoSinhVienDto(null,canhBao)).collect(Collectors.toList());
 
 
-        Page<ThongBao> page = thongBaoCustomRepository.listThongBao(pageable,idSinhVien);
+        Page<ThongBao> page = thongBaoCustomRepository.listThongBao(pageable, idSinhVien);
         PaginationMeta paginationMeta = PaginationMeta.createPagination(page);
         List<ThongBaoSinhVienDto> listThongBao = page.getContent().stream().map(thongBao -> new ThongBaoSinhVienDto(thongBao,null)).collect(Collectors.toList());
         if (listCanhBao.size()>0&&pageable.getPageNumber()==0&&pageable.getPageSize()<=10){
@@ -51,7 +55,7 @@ public class ThongBaoServiceImpl implements ThongBaoService {
     }
 
     @Override
-    public GetThongBaoLopOfGiangVien getThongBaoLopOfGiangVien(Pageable pageable,Integer idLop, Integer idGiangVien) {
+    public GetThongBaoLopOfGiangVien getThongBaoLopOfGiangVien(Pageable pageable,Integer idLop,Integer idGiangVien) {
         Page<ThongBao> page = thongBaoCustomRepository.thongBaoLopSinhVien(pageable,idGiangVien,idLop);
         List<ThongBaoLopOfGiangVien> list = page
                 .getContent().stream()
@@ -61,7 +65,7 @@ public class ThongBaoServiceImpl implements ThongBaoService {
     }
 
     @Override
-    public GetThongBaoLopOfGiangVien getThongBaoLopHocPhanOfGiangVien(Pageable pageable, Integer idLopHocPhan, Integer idGiangVien) {
+    public GetThongBaoLopOfGiangVien getThongBaoLopHocPhanOfGiangVien(Pageable pageable,Integer idLopHocPhan,Integer idGiangVien) {
         Page<ThongBao> page = thongBaoCustomRepository.thongBaoLopHocPhanSinhVien(pageable,idGiangVien,idLopHocPhan);
         List<ThongBaoLopOfGiangVien> list = page
                 .getContent().stream()
@@ -71,7 +75,7 @@ public class ThongBaoServiceImpl implements ThongBaoService {
     }
 
     @Override
-    public Integer themThongBaoLop(Integer idGiangVien, Integer idLop, PostThongBaoLop postThongBaoLop) {
+    public Integer themThongBaoLop(Integer idGiangVien,Integer idLop,PostThongBaoLop postThongBaoLop) {
         Lop lop = lopRepository.findById(idLop).orElseThrow(() -> new IllegalArgumentException("id not found"));
         GiangVien giangVien = giangVienRepository.findById(idGiangVien).orElseThrow(() -> new IllegalArgumentException("id not found"));
         ThongBao thongBao =new ThongBao(postThongBaoLop,giangVien);
@@ -81,7 +85,7 @@ public class ThongBaoServiceImpl implements ThongBaoService {
     }
 
     @Override
-    public Integer themThongBaoLopHocPhan(Integer idGiangVien, Integer idLopHocPhan, PostThongBaoLop postThongBaoLop) {
+    public Integer themThongBaoLopHocPhan(Integer idGiangVien,Integer idLopHocPhan,PostThongBaoLop postThongBaoLop) {
         LopHocPhan lopHocPhan = lopHocPhanRepository.findById(idLopHocPhan).orElseThrow(() -> new IllegalArgumentException("id not found"));
         GiangVien giangVien = giangVienRepository.findById(idGiangVien).orElseThrow(() -> new IllegalArgumentException("id not found"));
         ThongBao thongBao =new ThongBao(postThongBaoLop,giangVien);
@@ -92,7 +96,7 @@ public class ThongBaoServiceImpl implements ThongBaoService {
 
     @Override
     @Transactional
-    public Integer chinhSuaThongBaoLop(Integer idThongBao, PostThongBaoLop postThongBaoLop) {
+    public Integer chinhSuaThongBaoLop(Integer idThongBao,PostThongBaoLop postThongBaoLop) {
         ThongBao thongBao = thongBaoRepository.findById(idThongBao).orElseThrow(() -> new IllegalArgumentException("id not found"));
         thongBao.chinhSuaThongBaoLop(postThongBaoLop);
         return thongBao.getId();

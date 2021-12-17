@@ -37,15 +37,17 @@ public class BangDiem_SinhVien_MonHoc {
     public void huyDiem(){
         this.diemTBC=0;
         this.diemCK=0;
+
     }
     public void suaDiem(PutBangDiemSinhVien putBangDiemSinhVien){
         this.diemTK1 = putBangDiemSinhVien.getTk1();
         this.diemTK2 = putBangDiemSinhVien.getTk2();
         this.diemTK3 = putBangDiemSinhVien.getTk3();
         this.diemGK = putBangDiemSinhVien.getGk();
-        if (putBangDiemSinhVien.getGk()<=0){
+        if (putBangDiemSinhVien.getGk()<=0||putBangDiemSinhVien.getCk()<=0){
             this.diemCK=Double.valueOf("0.0");
             this.diemTBC = Double.valueOf("0.0");
+
             return;
         }else {
             this.diemCK = putBangDiemSinhVien.getCk();

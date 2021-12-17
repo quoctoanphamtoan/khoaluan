@@ -1,11 +1,9 @@
 package com.solienlac.khoaluan.web.service.impl;
 
 import com.solienlac.khoaluan.web.common.dto.GetLopHocPhan;
-import com.solienlac.khoaluan.web.common.dto.GetThongBaoSinhVien;
 import com.solienlac.khoaluan.web.common.dto.LopHocPhanDto;
 import com.solienlac.khoaluan.web.common.dto.LopHocPhanOfSinhVienDto;
 import com.solienlac.khoaluan.web.common.page.PaginationMeta;
-import com.solienlac.khoaluan.web.domain.Lop;
 import com.solienlac.khoaluan.web.domain.LopHocPhan;
 import com.solienlac.khoaluan.web.domain.SinhVien;
 import com.solienlac.khoaluan.web.repository.LopHocPhanCustomRepository;
@@ -16,12 +14,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Validated
 public class LopHocPhanServiceImpl implements LopHocPhanService {
     private final LopHocPhanCustomRepository lopHocPhanCustomRepository;
     private final SinhVienLopHocPhanRepository sinhVienLopHocPhanRepository;
@@ -36,7 +36,7 @@ public class LopHocPhanServiceImpl implements LopHocPhanService {
     }
 
     @Override
-    public List<LopHocPhanOfSinhVienDto> getLopHocPhanOfSinhVien(Integer idSinhVien) {
+    public List<LopHocPhanOfSinhVienDto> getLopHocPhanOfSinhVien( Integer idSinhVien) {
         SinhVien sinhVien = sinhVienRepository.findById(idSinhVien)
                 .orElseThrow(() -> new IllegalArgumentException("id not found"));
         return sinhVienLopHocPhanRepository.findSinhVien_LopHocPhanBySinhVien(sinhVien)

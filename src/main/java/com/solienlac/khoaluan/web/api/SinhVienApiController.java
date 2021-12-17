@@ -62,6 +62,10 @@ public class SinhVienApiController {
     public Integer xinNghiHoc(@RequestBody XinNghiHocParam xinNghiHocParam){
         return donXinNghiHocService.xinNghiHoc(xinNghiHocParam);
     }
+    @GetMapping("/{idSinhVien}/donxinnghihoc")
+    public List<DonXinNghiHocDto> donNghiHocs(@PathVariable("idSinhVien") Integer idSinhVien){
+        return donXinNghiHocService.getDonXinNghiHocOfSinhVien(idSinhVien);
+    }
 
 
 }

@@ -60,10 +60,10 @@ public class GiangVienApiController {
         return donXinNghiHocService.duyetDonXinNghiHoc(idGiangVien,idDonNghiHoc);
     }
 
-    @GetMapping("/{idGiangVien}/list-donxinnghihoc")
-    public GetDonXinNghiHoc getDonXinNghiHoc(@PathVariable("idGiangVien") Integer idGiangVien,
+    @GetMapping("/{idGiangVien}/{idLopHocPhan}/list-donxinnghihoc")
+    public GetDonXinNghiHoc getDonXinNghiHoc(@PathVariable("idGiangVien") Integer idGiangVien,@PathVariable("idLopHocPhan") Integer idLopHocPhan,
                                              @PageableDefault(size = 10, page = 1, direction = Sort.Direction.ASC) Pageable pageable){
-        return donXinNghiHocService.getDonXinNghiHoc(pageable,idGiangVien);
+        return donXinNghiHocService.getDonXinNghiHoc(pageable,idGiangVien,idLopHocPhan);
 
 
     }

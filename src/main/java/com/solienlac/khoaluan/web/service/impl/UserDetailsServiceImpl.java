@@ -27,11 +27,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String tenDangNhap) throws UsernameNotFoundException {
-		// Get user
 		TaiKhoan taiKhoan = taiKhoanRepository.findByTenDangNhap(tenDangNhap);
 		if (taiKhoan == null) throw new UsernameNotFoundException("Tên đăng nhập không tồn tại!");
-		
-		// Get roleName in database
+
 		Role roleName = taiKhoan.getRole();
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		authorities.add(new SimpleGrantedAuthority(roleName.toString()));

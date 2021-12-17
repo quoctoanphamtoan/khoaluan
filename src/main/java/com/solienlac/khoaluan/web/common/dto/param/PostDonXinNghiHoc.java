@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Getter
@@ -11,5 +13,7 @@ import java.util.Date;
 public class PostDonXinNghiHoc {
 
     private String noiDung;
+
+
     private Date ngayNghi;
 }

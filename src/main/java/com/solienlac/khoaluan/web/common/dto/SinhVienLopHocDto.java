@@ -19,6 +19,7 @@ public class SinhVienLopHocDto {
     private TrangThaiSinhVien trangThaiSinhVien;
     private String soDTPhuHuynh;
     private boolean isCanhBao;
+    private double diemTBTL;
 
 
 
@@ -32,6 +33,7 @@ public class SinhVienLopHocDto {
         this.soDT = sinhVien.getSoDienThoai();
         this.isCanhBao= sinhVien.getCanhBaoList().size()>0?true:false;
         this.maSV = sinhVien.getMaSinhvVien();
+        this.diemTBTL = sinhVien.getBangDiemTongKet()!=null?sinhVien.getBangDiemTongKet().getTrungBinhTichLuy():0;
 //        this.soDTPhuHuynh = sinhVien.getPhuHuynh().getHoTen();
 
     }

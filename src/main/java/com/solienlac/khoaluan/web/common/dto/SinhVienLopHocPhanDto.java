@@ -34,10 +34,13 @@ public class SinhVienLopHocPhanDto {
         this.id=sinhVien_lopHocPhan.getSinhVien().getId();
         this.hoTen = sinhVien_lopHocPhan.getSinhVien().getHoTen();
         this.email = sinhVien_lopHocPhan.getSinhVien().getEmail();
-        this.maSV = sinhVien_lopHocPhan.getSinhVien().getMaSinhvVien();
-        this.diemSinhVienMonHocDto = new DiemSinhVienMonHocDto(sinhVien_lopHocPhan.getSinhVien().getBangDiemTongKet().getBangDiem_sinhVien_monHocs()
+        this.maSV = sinhVien_lopHocPhan.getSinhVien().getMaSinhVien();
+        this.diemSinhVienMonHocDto =
+                new DiemSinhVienMonHocDto(sinhVien_lopHocPhan.getSinhVien().getBangDiemTongKet().getBangDiem_sinhVien_monHocs()
+                        //lay duoc all bang diem sinh vien mon hoc
                 .stream().filter(
-                        bangDiem_sinhVien_monHoc -> bangDiem_sinhVien_monHoc.getBangDiemTongKet().getSinhVien().getId()==sinhVien_lopHocPhan.getSinhVien().getId()
+                        bangDiem_sinhVien_monHoc -> bangDiem_sinhVien_monHoc.getBangDiemTongKet().getSinhVien().getId()==sinhVien_lopHocPhan.getSinhVien().getId()&&
+                                bangDiem_sinhVien_monHoc.getMonHoc().getId()==sinhVien_lopHocPhan.getLopHocPhan().getMonHoc().getId()
                 ).findAny().orElseThrow(() -> new IllegalArgumentException("id not found")));
         this.trangThai = sinhVien_lopHocPhan.isTrangThai();
         List<NgayNghi> ngayNghiList= sinhVien_lopHocPhan.getLopHocPhan().getSinhVien_lopHocPhans().stream().filter(svlhp ->

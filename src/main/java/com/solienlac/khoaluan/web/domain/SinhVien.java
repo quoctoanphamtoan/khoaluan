@@ -26,7 +26,7 @@ public class SinhVien  extends AbstractEntity {
     private Integer id;
 
     @Column(name = "maSinhVien")
-    private String maSinhvVien;
+    private String maSinhVien;
 
     @Column(name = "hoTen")
     private String hoTen;
@@ -65,7 +65,8 @@ public class SinhVien  extends AbstractEntity {
     @JoinColumn(name = "idLop")
     private Lop lop;
 
-    @OneToOne(mappedBy = "sinhVien")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idBangDiemTongKet")
     private BangDiemTongKet bangDiemTongKet;
 
 
@@ -76,22 +77,23 @@ public class SinhVien  extends AbstractEntity {
     public LopHocPhan getLopHocPhan(Integer idLopHocPhan) {
         return getSinhVien_lopHocPhans()
                 .stream().filter(sinhVien_lopHocPhan ->
-                {return sinhVien_lopHocPhan.getSinhVien()
-                        .id==this.id&&sinhVien_lopHocPhan.getLopHocPhan().getId()==idLopHocPhan;})
+                 sinhVien_lopHocPhan.getSinhVien()
+                        .id==this.id&&sinhVien_lopHocPhan.getLopHocPhan().getId()==idLopHocPhan)
                 .findAny().orElseThrow(() -> new IllegalArgumentException("id not found! ")).getLopHocPhan();
     }
 
     @OneToMany(mappedBy = "sinhVien")
     private List<DonXinNghiHoc> donXinNghiHocs= new ArrayList<>();
 
-    public SinhVien(String maSinhvVien, String hoTen, String diaChi, String soDienThoai, boolean gioiTinh, String email,TaiKhoan taiKhoan) {
-        this.maSinhvVien = maSinhvVien;
+    public SinhVien(String maSinhvVien, String hoTen, String diaChi, String soDienThoai, boolean gioiTinh, String email,TaiKhoan taiKhoan,BangDiemTongKet bangDiemTongKet) {
+        this.maSinhVien = maSinhvVien;
         this.hoTen = hoTen;
         this.diaChi = diaChi;
         this.soDienThoai = soDienThoai;
         this.gioiTinh = gioiTinh;
         this.email = email;
         this.taiKhoan = taiKhoan;
+        this.bangDiemTongKet = bangDiemTongKet;
     }
 
     public void chinhSua(PutSinhVienParam putSinhVienParam){

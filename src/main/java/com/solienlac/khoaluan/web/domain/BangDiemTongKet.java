@@ -22,14 +22,18 @@ public class BangDiemTongKet {
     @Column(name = "diemTbTL")
     private double trungBinhTichLuy;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idSinhVien")
+
+    @OneToOne(mappedBy = "bangDiemTongKet")
     private SinhVien sinhVien;
 
 
 
     @OneToMany(mappedBy = "bangDiemTongKet")
     private List<BangDiem_SinhVien_MonHoc> bangDiem_sinhVien_monHocs = new ArrayList<>();
+
+    public BangDiemTongKet(double trungBinhTichLuy) {
+        this.trungBinhTichLuy = trungBinhTichLuy;
+    }
 
     public void setBangDiemTongKet(List<BangDiem_SinhVien_MonHoc> list){
         final double[] diemsinhvien = {0};

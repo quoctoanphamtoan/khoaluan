@@ -4,10 +4,12 @@ import com.solienlac.khoaluan.web.domain.BangDiem_SinhVien_MonHoc;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Log4j2
 public class DiemSinhVienDto {
     private Integer id;
     private String tenMonHoc;
@@ -20,6 +22,8 @@ public class DiemSinhVienDto {
     private boolean trangThai;
 
     public DiemSinhVienDto(BangDiem_SinhVien_MonHoc bangDiem_sinhVien_monHoc){
+        log.info("info id sinh vien->{}",bangDiem_sinhVien_monHoc.getBangDiemTongKet().getSinhVien().getId());
+        log.info("info id bang diem sinh vien mon hoc ->{}",bangDiem_sinhVien_monHoc.getId());
         this.id = bangDiem_sinhVien_monHoc.getId();
         this.tenMonHoc = bangDiem_sinhVien_monHoc.getMonHoc().getTenMonHoc();
         this.tk1= bangDiem_sinhVien_monHoc.getDiemTK1();

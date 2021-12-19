@@ -91,9 +91,6 @@ public class DonXinNghiHocServiceImpl implements DonXinNghiHocService {
                 .stream().filter(ngayNghiCheck ->!ngayNghiCheck.isCoPhep()).collect(Collectors.toList()).size();
         if (((soNgayNghiPhep/2)+soNgayNghiKhongPhep)>=3){
             svlhpCheck.dinhChiHoc();
-            BangDiem_SinhVien_MonHoc bangDiem_sinhVien_monHoc = bangDiemSinhVienMonHocRepository.findByBangDiemTongKet(svlhpCheck.getSinhVien().getBangDiemTongKet());
-            bangDiem_sinhVien_monHoc.huyDiem();
-            svlhpCheck.getSinhVien().getBangDiemTongKet().setBangDiemTongKet(svlhpCheck.getSinhVien().getBangDiemTongKet().getBangDiem_sinhVien_monHocs());
 
         }
 

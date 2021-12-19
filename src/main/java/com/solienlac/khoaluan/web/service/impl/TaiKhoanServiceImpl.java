@@ -3,17 +3,14 @@ package com.solienlac.khoaluan.web.service.impl;
 import com.solienlac.khoaluan.web.common.dto.*;
 import com.solienlac.khoaluan.web.common.dto.param.CheckAuthParam;
 import com.solienlac.khoaluan.web.common.dto.param.DangKiParam;
-import com.solienlac.khoaluan.web.common.dto.param.PutImgDetail;
 import com.solienlac.khoaluan.web.common.dto.param.PutMatKhau;
-import com.solienlac.khoaluan.web.domain.GiangVien;
-import com.solienlac.khoaluan.web.domain.PhuHuynh;
-import com.solienlac.khoaluan.web.domain.SinhVien;
-import com.solienlac.khoaluan.web.domain.TaiKhoan;
+import com.solienlac.khoaluan.web.domain.*;
 import com.solienlac.khoaluan.web.domain.common.Role;
 import com.solienlac.khoaluan.web.repository.GiangVienRepository;
 import com.solienlac.khoaluan.web.repository.PhuHuynhRepository;
 import com.solienlac.khoaluan.web.repository.SinhVienRepository;
 import com.solienlac.khoaluan.web.repository.TaiKhoanRepository;
+import com.solienlac.khoaluan.web.service.BangDiemTongKetRepository;
 import com.solienlac.khoaluan.web.service.TaiKhoanService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -23,19 +20,11 @@ import lombok.extern.log4j.Log4j2;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -49,7 +38,7 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
     private final SinhVienRepository sinhVienRepository;
     private final GiangVienRepository giangVienRepository;
     private final PhuHuynhRepository phuHuynhRepository;
-    private final UserDetailsService userDetailsService;
+    private final BangDiemTongKetRepository bangDiemTongKetRepository;
     private final AuthenticationManager authenticationManager;
     private final AmazonClient amazonClient;
 
@@ -78,7 +67,7 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
         /////////////////////
         TaiKhoan taiKhoan = taiKhoanRepository.findByTenDangNhap(taiKhoanDangNhap.getTenDangNhap());
         if (taiKhoan.getRole()== Role.SINH_VIEN){
-            SinhVien sv=  sinhVienRepository.findByMaSinhvVien(taiKhoanDangNhap.getTenDangNhap());
+            SinhVien sv=  sinhVienRepository.findByMaSinhVien(taiKhoanDangNhap.getTenDangNhap());
             taiKhoanDangNhapResponse.setRole(Role.SINH_VIEN);
             taiKhoanDangNhapResponse.setThongTin(new ThongTinSinhVienDto(sv));
         }
@@ -130,8 +119,9 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
         TaiKhoan taiKhoanResult= taiKhoanRepository.save(taiKhoan);
 
         if (role.equalsIgnoreCase(Role.SINH_VIEN.toString())){
+            BangDiemTongKet bangDiemTongKet = bangDiemTongKetRepository.save(new BangDiemTongKet(0));
             SinhVien sinhVien = new SinhVien(tenDangNhap,
-                    thongTin.getHoTen(), thongTin.getDiaChi(),thongTin.getSoDT(),thongTin.isGioiTinh(),thongTin.getEmail(),taiKhoan);
+                    thongTin.getHoTen(), thongTin.getDiaChi(),thongTin.getSoDT(),thongTin.isGioiTinh(),thongTin.getEmail(),taiKhoan,bangDiemTongKet);
             sinhVienRepository.save(sinhVien);
         }
         if (role.equalsIgnoreCase(Role.PHU_HUYNH.toString())){

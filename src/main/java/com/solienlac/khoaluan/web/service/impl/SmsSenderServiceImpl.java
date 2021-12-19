@@ -25,7 +25,6 @@ import javax.validation.constraints.NotNull;
 
 @Service
 @RequiredArgsConstructor
-@Validated
 public class SmsSenderServiceImpl implements SmsSenderService {
     private final TwilioConfig twilioConfig ;
     private final SinhVienRepository sinhVienRepository;

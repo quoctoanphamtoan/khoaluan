@@ -35,7 +35,7 @@ public class DonXinNghiHocDto {
     private String noiDung;
 
     public DonXinNghiHocDto(DonXinNghiHoc donXinNghiHoc){
-        this.maSV = donXinNghiHoc.getSinhVien().getMaSinhvVien();
+        this.maSV = donXinNghiHoc.getSinhVien().getMaSinhVien();
         this.idDonXinNghiHoc = donXinNghiHoc.getId();
         this.idSinhVien=donXinNghiHoc.getSinhVien().getId();
         this.tenSinhVien=donXinNghiHoc.getSinhVien().getHoTen();

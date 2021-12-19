@@ -33,7 +33,6 @@ public class BangDiem_SinhVien_MonHoc {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idBangDiemTongKet")
     private BangDiemTongKet bangDiemTongKet;
-
     public void huyDiem(){
         this.diemTBC=0;
         this.diemCK=0;

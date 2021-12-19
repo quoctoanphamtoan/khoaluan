@@ -60,7 +60,7 @@ public class SinhVienServiceImpl implements SinhVienService {
         Page<SinhVien_LopHocPhan> page = sinhVienCustomRepository.listSinhVienLopHocPhan(pageable,idLopHocPhan);
         log.info(page.getContent().size());
         List<SinhVienLopHocPhanDto> list = page.getContent()
-                .stream().map(sinhVien_lopHocPhan -> new SinhVienLopHocPhanDto(sinhVien_lopHocPhan))
+                .stream().map(SinhVienLopHocPhanDto::new)
                 .collect(Collectors.toList());
         PaginationMeta paginationMeta = PaginationMeta.createPagination(page);
         return new GetSinhVienLopHocPhan(list,paginationMeta);

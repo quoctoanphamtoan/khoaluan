@@ -37,7 +37,7 @@ public class ThongTinSinhVienDto {
     private String imgUrl;
     public ThongTinSinhVienDto(SinhVien sinhVien){
         this.id = sinhVien.getId();
-        this.maSinhVien = sinhVien.getMaSinhvVien();
+        this.maSinhVien = sinhVien.getMaSinhVien();
         this.chuyenNganh = sinhVien.getChuyenNganh();
         this.hoTen = sinhVien.getHoTen();
         this.gioiTinh = sinhVien.isGioiTinh();

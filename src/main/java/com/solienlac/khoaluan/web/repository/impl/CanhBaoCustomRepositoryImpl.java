@@ -20,7 +20,7 @@ public class CanhBaoCustomRepositoryImpl implements CanhBaoCustomRepository {
     @Override
     public List<CanhBao> listCanhBaoSinhVien(Integer id,Integer idGiangVien) {
         JPAQuery query = new JPAQueryFactory(em)
-                .selectFrom(canhBao).where(canhBao.idSinhVien.id.eq(id),canhBao.idGiangVien.id.eq(idGiangVien));
+                .selectFrom(canhBao).where(canhBao.idSinhVien.id.eq(id));
         return query.fetch();
     }
 }

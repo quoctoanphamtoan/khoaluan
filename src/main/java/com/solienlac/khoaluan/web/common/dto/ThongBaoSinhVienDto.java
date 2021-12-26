@@ -20,13 +20,13 @@ public class ThongBaoSinhVienDto {
     private String tieuDe;
     private String thongBaoType;
     private String noiDung;
-    private Date ngayTao;
+    private Long ngayTao;
     private String tenGiangVien;
 
     public ThongBaoSinhVienDto(ThongBao thongBao, CanhBao canhBao){
       if(thongBao!=null){
           this.id = thongBao.getId();
-          this.ngayTao = thongBao.getNgayTao();
+          this.ngayTao = thongBao.getNgayTao().getTime();
           this.tenGiangVien = thongBao.getGiangVien().getHoTen();
           this.noiDung = thongBao.getNoiDung();
           this.tieuDe = thongBao.getTieuDe();
@@ -36,7 +36,7 @@ public class ThongBaoSinhVienDto {
       }
       if (canhBao!=null){
           this.id =canhBao.getId();
-          this.ngayTao = canhBao.getNgayTao();
+          this.ngayTao = canhBao.getNgayTao().getTime();
           this.tenGiangVien = canhBao.getIdGiangVien().getHoTen();
           this.noiDung = canhBao.getNoiDung();
           this.tieuDe = canhBao.getTieuDe();

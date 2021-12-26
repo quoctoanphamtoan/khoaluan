@@ -17,7 +17,7 @@ public class CanhBaoDto {
     private String tenSinhVien;
     private String noiDung;
     private String tieuDe;
-    private Date ngayTao;
+    private Long ngayTao;
     private boolean trangThai;
 
 
@@ -27,7 +27,7 @@ public class CanhBaoDto {
         this.idSinhVien = canhBao.getIdSinhVien().getId();
         this.tenSinhVien = canhBao.getIdSinhVien().getHoTen();
         this.tieuDe = canhBao.getTieuDe();
-        this.ngayTao = canhBao.getNgayTao();
+        this.ngayTao = canhBao.getNgayTao().getTime();
         this.trangThai = canhBao.isTrangThai();
     }
 

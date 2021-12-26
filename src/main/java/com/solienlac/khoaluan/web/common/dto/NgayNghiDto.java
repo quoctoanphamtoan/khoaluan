@@ -14,11 +14,11 @@ import java.util.Date;
 @AllArgsConstructor
 public class NgayNghiDto {
     private Integer id;
-    private Date ngayNghi;
+    private Long ngayNghi;
     private boolean phep;
     public NgayNghiDto(NgayNghi ngayNghi){
         this.id = ngayNghi.getId();
-        this.ngayNghi = ngayNghi.getNgayNghi();
+        this.ngayNghi = ngayNghi.getNgayNghi().getTime();
         this.phep = ngayNghi.isCoPhep();
     }
 }

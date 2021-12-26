@@ -14,14 +14,14 @@ import java.util.Date;
 public class ThongBaoLopOfGiangVien {
     private Integer id;
     private String tieuDe;
-    private Date ngayTao;
+    private Long ngayTao;
     private String noiDung;
     private boolean hienThi;
     private boolean trangThai;
     public ThongBaoLopOfGiangVien(ThongBao thongBao){
         this.id= thongBao.getId();
         this.tieuDe=thongBao.getTieuDe();
-        this.ngayTao = thongBao.getNgayTao();
+        this.ngayTao = thongBao.getNgayTao().getTime();
         this.noiDung=thongBao.getNoiDung();
         this.hienThi = thongBao.isHienThi();
         this.trangThai = thongBao.isTrangThai();

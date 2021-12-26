@@ -29,7 +29,7 @@ public class DonXinNghiHocDto {
     private String maSV;
     private String tenSinhVien;
     private String tenLopHocPhan;
-    private Date ngayNghi;
+    private Long ngayNghi;
     private Date ngayTao;
     private Boolean trangThai;
     private String noiDung;
@@ -40,7 +40,7 @@ public class DonXinNghiHocDto {
         this.idSinhVien=donXinNghiHoc.getSinhVien().getId();
         this.tenSinhVien=donXinNghiHoc.getSinhVien().getHoTen();
         this.tenLopHocPhan =donXinNghiHoc.getLopHocPhan().getTenLopHP();
-        this.ngayNghi = donXinNghiHoc.getNgayNghi();
+        this.ngayNghi = donXinNghiHoc.getNgayNghi().getTime();
         this.ngayTao=donXinNghiHoc.getNgayTao();
         this.trangThai=donXinNghiHoc.getTrangThai();
         this.noiDung=donXinNghiHoc.getNoiDung();

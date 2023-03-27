@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 public class SinhVienServiceImpl implements SinhVienService {
     private final SinhVienRepository sinhVienRepository;
     private final SinhVienCustomRepository sinhVienCustomRepository;
+
     @Override
     public ThongTinSinhVienDto xemThongTin(Integer id) {
         SinhVien sinhVien = sinhVienRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("id not found"));
@@ -41,28 +42,28 @@ public class SinhVienServiceImpl implements SinhVienService {
 
     @Override
     @Transactional
-    public Integer chinhSuaSinhVien(Integer id,PutSinhVienParam putSinhVienParam) {
+    public Integer chinhSuaSinhVien(Integer id, PutSinhVienParam putSinhVienParam) {
         SinhVien sinhVien = sinhVienRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("id not found"));
         sinhVien.chinhSua(putSinhVienParam);
         return id;
     }
 
     @Override
-    public GetSinhVienLopHoc getSinhVienLopHoc(Pageable pageable,Integer idLopHoc) {
-        Page<SinhVien> page = sinhVienCustomRepository.listSinhVienLopHoc(pageable,idLopHoc);
-        List<SinhVienLopHocDto> list =page.getContent().stream().map(sinhVien -> new SinhVienLopHocDto(sinhVien)).collect(Collectors.toList());
+    public GetSinhVienLopHoc getSinhVienLopHoc(Pageable pageable, Integer idLopHoc) {
+        Page<SinhVien> page = sinhVienCustomRepository.listSinhVienLopHoc(pageable, idLopHoc);
+        List<SinhVienLopHocDto> list = page.getContent().stream().map(sinhVien -> new SinhVienLopHocDto(sinhVien)).collect(Collectors.toList());
         PaginationMeta paginationMeta = PaginationMeta.createPagination(page);
-        return new GetSinhVienLopHoc(list,paginationMeta);
+        return new GetSinhVienLopHoc(list, paginationMeta);
     }
 
     @Override
-    public GetSinhVienLopHocPhan getSinhVienLopHocPhan(Pageable pageable,Integer idLopHocPhan) {
-        Page<SinhVien_LopHocPhan> page = sinhVienCustomRepository.listSinhVienLopHocPhan(pageable,idLopHocPhan);
+    public GetSinhVienLopHocPhan getSinhVienLopHocPhan(Pageable pageable, Integer idLopHocPhan) {
+        Page<SinhVien_LopHocPhan> page = sinhVienCustomRepository.listSinhVienLopHocPhan(pageable, idLopHocPhan);
         log.info(page.getContent().size());
         List<SinhVienLopHocPhanDto> list = page.getContent()
                 .stream().map(SinhVienLopHocPhanDto::new)
                 .collect(Collectors.toList());
         PaginationMeta paginationMeta = PaginationMeta.createPagination(page);
-        return new GetSinhVienLopHocPhan(list,paginationMeta);
+        return new GetSinhVienLopHocPhan(list, paginationMeta);
     }
 }

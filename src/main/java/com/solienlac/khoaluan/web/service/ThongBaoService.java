@@ -8,22 +8,20 @@ import org.springframework.data.domain.Pageable;
 import javax.validation.Valid;
 
 public interface ThongBaoService {
-    GetThongBaoSinhVien getThongBaoSinhVien(Pageable pageable,Integer idSinhVien);
-    GetThongBaoLopOfGiangVien getThongBaoLopOfGiangVien(Pageable pageable,Integer idLop,Integer idGiangVien);
+    GetThongBaoSinhVien getThongBaoSinhVien(Pageable pageable, Integer idSinhVien);
+
+    GetThongBaoLopOfGiangVien getThongBaoLopOfGiangVien(Pageable pageable, Integer idLop, Integer idGiangVien);
 
 
-
-    GetThongBaoLopOfGiangVien getThongBaoLopHocPhanOfGiangVien(Pageable pageable,Integer idLopHocPhan,Integer idGiangVien);
-
+    GetThongBaoLopOfGiangVien getThongBaoLopHocPhanOfGiangVien(Pageable pageable, Integer idLopHocPhan, Integer idGiangVien);
 
 
-    Integer themThongBaoLop(Integer idGiangVien,Integer idLop,PostThongBaoLop postThongBaoLop);
-    Integer themThongBaoLopHocPhan(Integer idGiangVien,Integer idLopHocPhan,PostThongBaoLop postThongBaoLop);
+    Integer themThongBaoLop(Integer idGiangVien, Integer idLop, PostThongBaoLop postThongBaoLop);
 
+    Integer themThongBaoLopHocPhan(Integer idGiangVien, Integer idLopHocPhan, PostThongBaoLop postThongBaoLop);
 
 
     Integer chinhSuaThongBaoLop(Integer idThongBao, PostThongBaoLop postThongBaoLop);
-
 
 
     Integer chinhSuaHienThiThongBaoLop(Integer idThongBao);

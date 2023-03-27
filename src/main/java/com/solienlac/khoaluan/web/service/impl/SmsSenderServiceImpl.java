@@ -26,7 +26,7 @@ import javax.validation.constraints.NotNull;
 @Service
 @RequiredArgsConstructor
 public class SmsSenderServiceImpl implements SmsSenderService {
-    private final TwilioConfig twilioConfig ;
+    private final TwilioConfig twilioConfig;
     private final SinhVienRepository sinhVienRepository;
     private final GiangVienRepository giangVienRepository;
     private final CanhBaoRepository canhBaoRepository;
@@ -44,7 +44,7 @@ public class SmsSenderServiceImpl implements SmsSenderService {
         PhuHuynh phuHuynh = sinhVien.getPhuHuynh();
         GiangVien giangVien = giangVienRepository.findById(thongTinCanhBao.getIdGiangVien()).orElse(null);
         if (isPhoneNumberValid(sinhVien.getSoDienThoai()
-                ,phuHuynh.getSoDienThoai())){
+                , phuHuynh.getSoDienThoai())) {
             Twilio.init(twilioConfig.getAccount_sid(), twilioConfig.getAuth_token());
             PhoneNumber from = new PhoneNumber(twilioConfig.getPhone_nummber());
 
@@ -52,23 +52,23 @@ public class SmsSenderServiceImpl implements SmsSenderService {
             PhoneNumber toPhuHuynh = new PhoneNumber(phuHuynh.getSoDienThoai());
             PhoneNumber toSinhVien = new PhoneNumber(sinhVien.getSoDienThoai());
 
-            String message =thongTinCanhBao.getTieuDe()+" \n "+ thongTinCanhBao.getNoiDung();
-            MessageCreator creatorPhuHuynh = Message.creator(toPhuHuynh,from,message);
-            MessageCreator creatorSinhVien = Message.creator(toSinhVien,from,message);
+            String message = thongTinCanhBao.getTieuDe() + " \n " + thongTinCanhBao.getNoiDung();
+            MessageCreator creatorPhuHuynh = Message.creator(toPhuHuynh, from, message);
+            MessageCreator creatorSinhVien = Message.creator(toSinhVien, from, message);
             creatorPhuHuynh.create();
             creatorSinhVien.create();
-            CanhBao canhBao = new CanhBao(thongTinCanhBao.getTieuDe(),thongTinCanhBao.getNoiDung(),giangVien,sinhVien);
+            CanhBao canhBao = new CanhBao(thongTinCanhBao.getTieuDe(), thongTinCanhBao.getNoiDung(), giangVien, sinhVien);
             canhBaoRepository.save(canhBao);
             return canhBao.getId();
 
-        }else{
+        } else {
             throw new IllegalAccessException("Phone number error! ");
         }
 
     }
 
-    private boolean isPhoneNumberValid(String phoneSinhVien,String phoneGiangVien) {
-        if (phoneSinhVien.equalsIgnoreCase("")||phoneGiangVien.equalsIgnoreCase("")){
+    private boolean isPhoneNumberValid(String phoneSinhVien, String phoneGiangVien) {
+        if (phoneSinhVien.equalsIgnoreCase("") || phoneGiangVien.equalsIgnoreCase("")) {
             return false;
         }
         return true;

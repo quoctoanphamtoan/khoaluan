@@ -10,5 +10,6 @@ import java.util.List;
 
 public interface LopHocPhanService {
     GetLopHocPhan lopHocPhans(Integer idGiangVien, Pageable pageable);
+
     List<LopHocPhanOfSinhVienDto> getLopHocPhanOfSinhVien(Integer idSinhVien);
 }

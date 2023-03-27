@@ -21,9 +21,9 @@ public class CanhBaoDto {
     private boolean trangThai;
 
 
-    public CanhBaoDto(CanhBao canhBao){
-        this.id=canhBao.getId();
-        this.noiDung= canhBao.getNoiDung();
+    public CanhBaoDto(CanhBao canhBao) {
+        this.id = canhBao.getId();
+        this.noiDung = canhBao.getNoiDung();
         this.idSinhVien = canhBao.getIdSinhVien().getId();
         this.tenSinhVien = canhBao.getIdSinhVien().getHoTen();
         this.tieuDe = canhBao.getTieuDe();

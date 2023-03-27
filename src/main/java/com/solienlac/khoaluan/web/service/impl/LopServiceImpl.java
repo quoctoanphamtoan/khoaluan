@@ -24,13 +24,13 @@ public class LopServiceImpl implements LopService {
     private final LopQueryRepository lopQueryRepository;
 
     @Override
-    public GetLop getLop(Pageable pageable,Integer idGiangVien) {
+    public GetLop getLop(Pageable pageable, Integer idGiangVien) {
         List<LopDto> list = new ArrayList<>();
-        Page<Lop> page = lopQueryRepository.getLop(pageable,idGiangVien);
+        Page<Lop> page = lopQueryRepository.getLop(pageable, idGiangVien);
         page.getContent().forEach(lop -> {
             list.add(new LopDto(lop));
         });
         PaginationMeta paginationMeta = PaginationMeta.createPagination(page);
-        return new GetLop(list,paginationMeta);
+        return new GetLop(list, paginationMeta);
     }
 }

@@ -34,15 +34,15 @@ public class NgayNghiServiceImpl implements NgayNghiService {
     @Transactional
     public ResponseEntity<Void> xoaNgayNghi(@NotEmpty @NotNull Integer idNgayNghi) {
         NgayNghi ngayNghi = ngayNghiRepository.findById(idNgayNghi).orElseThrow(() -> new IllegalArgumentException("id not found"));
-        SinhVien_LopHocPhan svlhpCheck= ngayNghi.getSinhVien_lopHocPhan();
+        SinhVien_LopHocPhan svlhpCheck = ngayNghi.getSinhVien_lopHocPhan();
         Integer soNgayNghiPhep = svlhpCheck.getNgayNghis()
-                .stream().filter(ngayNghiCheck ->ngayNghiCheck.isCoPhep()).collect(Collectors.toList()).size();
+                .stream().filter(ngayNghiCheck -> ngayNghiCheck.isCoPhep()).collect(Collectors.toList()).size();
 
         Integer soNgayNghiKhongPhep = svlhpCheck.getNgayNghis()
-                .stream().filter(ngayNghiCheck ->!ngayNghiCheck.isCoPhep()).collect(Collectors.toList()).size();
-        if (((soNgayNghiPhep/2)+soNgayNghiKhongPhep)<4){
+                .stream().filter(ngayNghiCheck -> !ngayNghiCheck.isCoPhep()).collect(Collectors.toList()).size();
+        if (((soNgayNghiPhep / 2) + soNgayNghiKhongPhep) < 4) {
             svlhpCheck.choHocLai();
-        }else {
+        } else {
             svlhpCheck.dinhChiHoc();
         }
         ngayNghiRepository.deleteById(idNgayNghi);

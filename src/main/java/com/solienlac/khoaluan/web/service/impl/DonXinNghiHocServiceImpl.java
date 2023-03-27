@@ -36,60 +36,60 @@ public class DonXinNghiHocServiceImpl implements DonXinNghiHocService {
     private final BangDiemSinhVienMonHocRepository bangDiemSinhVienMonHocRepository;
 
     @Override
-    public Integer xinNghiHoc(  Integer idSinhVien, Integer idLopHocPhan,PostDonXinNghiHoc postDonXinNghiHoc) {
-        SinhVien sinhVien  = sinhVienRepository.findById(idSinhVien).orElseThrow(() -> new IllegalArgumentException("id not found!"));
-        LopHocPhan lopHocPhan  = lopHocPhanRepository.getOne(idLopHocPhan);
-        DonXinNghiHoc donXinNghiHoc =new DonXinNghiHoc(postDonXinNghiHoc.getNoiDung(), postDonXinNghiHoc.getNgayNghi(),sinhVien,lopHocPhan );
-        return  donXinNghiHocRepository.save(donXinNghiHoc).getId();
+    public Integer xinNghiHoc(Integer idSinhVien, Integer idLopHocPhan, PostDonXinNghiHoc postDonXinNghiHoc) {
+        SinhVien sinhVien = sinhVienRepository.findById(idSinhVien).orElseThrow(() -> new IllegalArgumentException("id not found!"));
+        LopHocPhan lopHocPhan = lopHocPhanRepository.getOne(idLopHocPhan);
+        DonXinNghiHoc donXinNghiHoc = new DonXinNghiHoc(postDonXinNghiHoc.getNoiDung(), postDonXinNghiHoc.getNgayNghi(), sinhVien, lopHocPhan);
+        return donXinNghiHocRepository.save(donXinNghiHoc).getId();
     }
 
     @Override
     @Transactional
-    public Integer duyetDonXinNghiHoc(  Integer idGiangVien,   Integer idDonXinNghiHoc) {
+    public Integer duyetDonXinNghiHoc(Integer idGiangVien, Integer idDonXinNghiHoc) {
         DonXinNghiHoc donXinNghiHoc = donXinNghiHocRepository.findById(idDonXinNghiHoc)
                 .orElseThrow(() -> new IllegalArgumentException("id not found"));
         donXinNghiHoc.duyetDonNghiHoc();
         SinhVien_LopHocPhan sinhVien_lopHocPhan =
-                sinhVienLopHocPhanRepository.findSinhVien_LopHocPhanBySinhVienAndLopHocPhan(donXinNghiHoc.getSinhVien(),donXinNghiHoc.getLopHocPhan());
+                sinhVienLopHocPhanRepository.findSinhVien_LopHocPhanBySinhVienAndLopHocPhan(donXinNghiHoc.getSinhVien(), donXinNghiHoc.getLopHocPhan());
 
-       ngayNghiRepository.save(new NgayNghi(donXinNghiHoc.getNgayNghi(),sinhVien_lopHocPhan));
+        ngayNghiRepository.save(new NgayNghi(donXinNghiHoc.getNgayNghi(), sinhVien_lopHocPhan));
         Integer nghiPhep = sinhVien_lopHocPhan.getNgayNghis().stream().filter(ngayNghi -> ngayNghi.isCoPhep()).collect(Collectors.toList()).size();
         Integer nghiKhongPhep = sinhVien_lopHocPhan.getNgayNghis().stream().filter(ngayNghi -> !ngayNghi.isCoPhep()).collect(Collectors.toList()).size();
 
-        if (((nghiPhep/2)+nghiKhongPhep)>=3){
+        if (((nghiPhep / 2) + nghiKhongPhep) >= 3) {
             sinhVien_lopHocPhan.dinhChiHoc();
         }
         return donXinNghiHoc.getId();
     }
 
     @Override
-    public GetDonXinNghiHoc getDonXinNghiHoc(Pageable pageable,  Integer idGiangVien, Integer idLopHocPhan) {
+    public GetDonXinNghiHoc getDonXinNghiHoc(Pageable pageable, Integer idGiangVien, Integer idLopHocPhan) {
         List<DonXinNghiHocDto> list = new ArrayList<>();
-        Page<DonXinNghiHoc> page = donXinNghiHocCustomRepository.listDonXinNghiHoc(pageable,idGiangVien,idLopHocPhan);
+        Page<DonXinNghiHoc> page = donXinNghiHocCustomRepository.listDonXinNghiHoc(pageable, idGiangVien, idLopHocPhan);
         page.getContent().forEach(donXinNghiHoc -> {
             list.add(new DonXinNghiHocDto(donXinNghiHoc));
         });
         PaginationMeta paginationMeta = PaginationMeta.createPagination(page);
-        return new GetDonXinNghiHoc(list,paginationMeta);
+        return new GetDonXinNghiHoc(list, paginationMeta);
     }
 
     @Override
     @Transactional
-    public Integer diemDanh( Integer idSinhVien, Integer idLopHocPhan,PostDiemDanh postDiemDanh) {
+    public Integer diemDanh(Integer idSinhVien, Integer idLopHocPhan, PostDiemDanh postDiemDanh) {
         SinhVien sinhVien = sinhVienRepository.findById(idSinhVien)
                 .orElseThrow(() -> new IllegalArgumentException("id not found"));
         LopHocPhan lopHocPhan = lopHocPhanRepository.findById(idLopHocPhan)
                 .orElseThrow(() -> new IllegalArgumentException("id not found"));
-        SinhVien_LopHocPhan sinhVien_lopHocPhan = sinhVienLopHocPhanRepository.findSinhVien_LopHocPhanBySinhVienAndLopHocPhan(sinhVien,lopHocPhan);
-        NgayNghi ngayNghi = ngayNghiRepository.save(new NgayNghi(postDiemDanh,sinhVien_lopHocPhan));
-        SinhVien_LopHocPhan svlhpCheck = sinhVienLopHocPhanRepository.findSinhVien_LopHocPhanBySinhVienAndLopHocPhan(sinhVien,lopHocPhan);
+        SinhVien_LopHocPhan sinhVien_lopHocPhan = sinhVienLopHocPhanRepository.findSinhVien_LopHocPhanBySinhVienAndLopHocPhan(sinhVien, lopHocPhan);
+        NgayNghi ngayNghi = ngayNghiRepository.save(new NgayNghi(postDiemDanh, sinhVien_lopHocPhan));
+        SinhVien_LopHocPhan svlhpCheck = sinhVienLopHocPhanRepository.findSinhVien_LopHocPhanBySinhVienAndLopHocPhan(sinhVien, lopHocPhan);
 
         Integer soNgayNghiPhep = svlhpCheck.getNgayNghis()
-                .stream().filter(ngayNghiCheck ->ngayNghiCheck.isCoPhep()).collect(Collectors.toList()).size();
+                .stream().filter(ngayNghiCheck -> ngayNghiCheck.isCoPhep()).collect(Collectors.toList()).size();
 
         Integer soNgayNghiKhongPhep = svlhpCheck.getNgayNghis()
-                .stream().filter(ngayNghiCheck ->!ngayNghiCheck.isCoPhep()).collect(Collectors.toList()).size();
-        if (((soNgayNghiPhep/2)+soNgayNghiKhongPhep)>=3){
+                .stream().filter(ngayNghiCheck -> !ngayNghiCheck.isCoPhep()).collect(Collectors.toList()).size();
+        if (((soNgayNghiPhep / 2) + soNgayNghiKhongPhep) >= 3) {
             svlhpCheck.dinhChiHoc();
 
         }
@@ -106,7 +106,7 @@ public class DonXinNghiHocServiceImpl implements DonXinNghiHocService {
                 .orElseThrow(() -> new IllegalArgumentException("id not found"));
         LopHocPhan lopHocPhan = lopHocPhanRepository.findById(sinhVien_lopHocPhan.getLopHocPhan().getId())
                 .orElseThrow(() -> new IllegalArgumentException("id not found !"));
-        return donXinNghiHocRepository.save(new DonXinNghiHoc(xinNghiHocParam,sinhVien,lopHocPhan)).getId();
+        return donXinNghiHocRepository.save(new DonXinNghiHoc(xinNghiHocParam, sinhVien, lopHocPhan)).getId();
     }
 
     @Override

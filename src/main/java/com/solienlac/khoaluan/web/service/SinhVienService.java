@@ -12,9 +12,12 @@ import javax.validation.constraints.NotNull;
 
 public interface SinhVienService {
     ThongTinSinhVienDto xemThongTin(Integer id);
-    Integer chinhSuaSinhVien(Integer id,PutSinhVienParam putSinhVienParam);
-    GetSinhVienLopHoc getSinhVienLopHoc(Pageable pageable,Integer idLopHoc);
-    GetSinhVienLopHocPhan getSinhVienLopHocPhan(Pageable pageable,Integer idLopHocPhan);
+
+    Integer chinhSuaSinhVien(Integer id, PutSinhVienParam putSinhVienParam);
+
+    GetSinhVienLopHoc getSinhVienLopHoc(Pageable pageable, Integer idLopHoc);
+
+    GetSinhVienLopHocPhan getSinhVienLopHocPhan(Pageable pageable, Integer idLopHocPhan);
 
 
 }

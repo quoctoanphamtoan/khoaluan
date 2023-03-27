@@ -9,5 +9,6 @@ import java.util.List;
 
 public interface NgayNghiService {
     List<NgayNghiDto> listNgayNghiDtoOfSinhVienLhp(Integer idSinhVienLhp);
+
     ResponseEntity<Void> xoaNgayNghi(Integer idNgayNghi);
 }

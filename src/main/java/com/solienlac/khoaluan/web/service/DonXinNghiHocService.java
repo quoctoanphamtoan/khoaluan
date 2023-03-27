@@ -14,10 +14,15 @@ import java.util.List;
 
 
 public interface DonXinNghiHocService {
-    Integer xinNghiHoc(Integer idSinhVien,Integer idLopHocPhan,PostDonXinNghiHoc postDonXinNghiHoc);
-    Integer duyetDonXinNghiHoc(Integer idGiangVien,Integer idDonXinNghiHoc);
-    GetDonXinNghiHoc getDonXinNghiHoc(Pageable pageable,Integer idGiangVien,Integer idLopHocPhan);
-    Integer diemDanh(Integer idSinhVien,Integer idLopHocPhan,PostDiemDanh postDiemDanh);
+    Integer xinNghiHoc(Integer idSinhVien, Integer idLopHocPhan, PostDonXinNghiHoc postDonXinNghiHoc);
+
+    Integer duyetDonXinNghiHoc(Integer idGiangVien, Integer idDonXinNghiHoc);
+
+    GetDonXinNghiHoc getDonXinNghiHoc(Pageable pageable, Integer idGiangVien, Integer idLopHocPhan);
+
+    Integer diemDanh(Integer idSinhVien, Integer idLopHocPhan, PostDiemDanh postDiemDanh);
+
     Integer xinNghiHoc(XinNghiHocParam xinNghiHocParam);
+
     List<DonXinNghiHocDto> getDonXinNghiHocOfSinhVien(Integer idSinhVien);
 }

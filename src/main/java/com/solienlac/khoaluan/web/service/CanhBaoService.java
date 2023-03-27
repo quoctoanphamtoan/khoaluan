@@ -7,5 +7,5 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public interface CanhBaoService {
-    List<CanhBaoDto> listCanhBao(Integer idSinhVien,Integer idGiangVien);
+    List<CanhBaoDto> listCanhBao(Integer idSinhVien, Integer idGiangVien);
 }

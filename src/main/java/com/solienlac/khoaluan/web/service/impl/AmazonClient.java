@@ -29,12 +29,13 @@ public class AmazonClient {
     private String accessKey;
     @Value("${amazonProperties.secretKey}")
     private String secretKey;
-    
+
     @PostConstruct
     private void initializeAmazon() {
-       AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
-       this.s3client = new AmazonS3Client(credentials);
-}
+        AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
+        this.s3client = new AmazonS3Client(credentials);
+    }
+
     private File convertMultiPartToFile(MultipartFile file) throws IOException {
         File convFile = new File(file.getOriginalFilename());
         FileOutputStream fos = new FileOutputStream(convFile);
@@ -42,10 +43,12 @@ public class AmazonClient {
         fos.close();
         return convFile;
     }
+
     private void uploadFileTos3bucket(String fileName, File file) {
         s3client.putObject(new PutObjectRequest(bucketName, fileName, file)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
     }
+
     public String uploadFile(MultipartFile multipartFile) {
 
         String fileUrl = "";
@@ -60,6 +63,7 @@ public class AmazonClient {
         }
         return fileUrl;
     }
+
     private String generateFileName(MultipartFile multiPart) {
         return new Date().getTime() + "-" + multiPart.getOriginalFilename().replace(" ", "_");
     }

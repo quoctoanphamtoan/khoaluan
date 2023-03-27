@@ -16,8 +16,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CanhBaoServiceImpl implements CanhBaoService {
     private final CanhBaoCustomRepository canhBaoCustomRepository;
+
     @Override
-    public List<CanhBaoDto> listCanhBao(Integer idSinhVien,Integer idGiangVien) {
-        return canhBaoCustomRepository.listCanhBaoSinhVien(idSinhVien,idGiangVien).stream().map(canhBao -> new CanhBaoDto(canhBao)).collect(Collectors.toList());
+    public List<CanhBaoDto> listCanhBao(Integer idSinhVien, Integer idGiangVien) {
+        return canhBaoCustomRepository.listCanhBaoSinhVien(idSinhVien, idGiangVien).stream().map(canhBao -> new CanhBaoDto(canhBao)).collect(Collectors.toList());
     }
 }

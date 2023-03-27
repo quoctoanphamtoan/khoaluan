@@ -13,6 +13,7 @@ public class LopDto {
     private String tenChuyenNganh;
     private Integer siSo;
     private String khoaHoc;
+
     public LopDto(Lop lop) {
         this.id = lop.getId();
         this.tenLop = lop.getTenLop();

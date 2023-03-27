@@ -23,20 +23,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-	private final TaiKhoanRepository taiKhoanRepository;
+    private final TaiKhoanRepository taiKhoanRepository;
 
-	@Override
-	public UserDetails loadUserByUsername(String tenDangNhap) throws UsernameNotFoundException {
-		TaiKhoan taiKhoan = taiKhoanRepository.findByTenDangNhap(tenDangNhap);
-		log.info("ho ten la ->{}",taiKhoan.getMatKhau());
-		if (taiKhoan == null) throw new UsernameNotFoundException("Tên đăng nhập không tồn tại!");
+    @Override
+    public UserDetails loadUserByUsername(String tenDangNhap) throws UsernameNotFoundException {
+        TaiKhoan taiKhoan = taiKhoanRepository.findByTenDangNhap(tenDangNhap);
+        log.info("ho ten la ->{}", taiKhoan.getMatKhau());
+        if (taiKhoan == null) throw new UsernameNotFoundException("Tên đăng nhập không tồn tại!");
 
-		Role roleName = taiKhoan.getRole();
-		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		authorities.add(new SimpleGrantedAuthority(roleName.toString()));
-		
-		return new UserDetailsDto(tenDangNhap, taiKhoan.getMatKhau(), authorities);
-	}
-	
+        Role roleName = taiKhoan.getRole();
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        authorities.add(new SimpleGrantedAuthority(roleName.toString()));
+
+        return new UserDetailsDto(tenDangNhap, taiKhoan.getMatKhau(), authorities);
+    }
+
 
 }

@@ -22,34 +22,36 @@ import org.springframework.web.multipart.MultipartFile;
 public class TaiKhoanApiController {
     private final TaiKhoanService taiKhoanService;
     private final AmazonClient amazonClient;
+
     @PostMapping("/dangnhap")
-    public  ResponseEntity<TaiKhoanDangNhapResponse> dangNhap(@RequestBody TaiKhoanDangNhap taiKhoanDangNhap){
+    public ResponseEntity<TaiKhoanDangNhapResponse> dangNhap(@RequestBody TaiKhoanDangNhap taiKhoanDangNhap) {
         TaiKhoanDangNhapResponse userLoginResponseDto = taiKhoanService.userLogin(taiKhoanDangNhap);
         return ResponseEntity.ok(userLoginResponseDto);
     }
 
     @PostMapping("/dangki")
     @ResponseStatus(HttpStatus.CREATED)
-    public int dangKi(@RequestBody DangKiParam thongTin){
+    public int dangKi(@RequestBody DangKiParam thongTin) {
         return taiKhoanService.dangKi(thongTin);
     }
 
     @PostMapping("/checkauth")
     @ResponseStatus(HttpStatus.OK)
-    public CheckAuthResponse checkAuth(@RequestBody CheckAuthParam checkAuthParam){
+    public CheckAuthResponse checkAuth(@RequestBody CheckAuthParam checkAuthParam) {
         return taiKhoanService.checkAuth(checkAuthParam);
     }
 
     @PutMapping("/doimatkhau")
     @ResponseStatus(HttpStatus.OK)
-    public Integer doiMatKhau(@RequestBody PutMatKhau putMatKhau){
+    public Integer doiMatKhau(@RequestBody PutMatKhau putMatKhau) {
         return taiKhoanService.doiMatKhau(putMatKhau);
     }
 
 
     @PutMapping("/avatar/{id}")
-    public String uploadFile(@RequestPart(value = "file") MultipartFile file,@PathVariable("id")Integer id) {
-        System.out.println(file.getOriginalFilename());;
+    public String uploadFile(@RequestPart(value = "file") MultipartFile file, @PathVariable("id") Integer id) {
+        System.out.println(file.getOriginalFilename());
+        ;
         return taiKhoanService.uploadImgUrl(id, file);
     }
 

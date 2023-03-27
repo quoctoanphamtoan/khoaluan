@@ -19,9 +19,14 @@ import java.util.List;
 
 public interface TaiKhoanService {
     List<TaiKhoan> getAll();
+
     TaiKhoanDangNhapResponse userLogin(TaiKhoanDangNhap taiKhoanDangNhap);
-    Integer dangKi( DangKiParam taiKhoan);
+
+    Integer dangKi(DangKiParam taiKhoan);
+
     CheckAuthResponse checkAuth(CheckAuthParam checkAuthParam);
+
     Integer doiMatKhau(PutMatKhau putMatKhau);
-    String uploadImgUrl(Integer id,MultipartFile file);
+
+    String uploadImgUrl(Integer id, MultipartFile file);
 }

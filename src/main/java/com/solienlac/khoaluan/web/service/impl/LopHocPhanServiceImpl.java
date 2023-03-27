@@ -26,17 +26,18 @@ public class LopHocPhanServiceImpl implements LopHocPhanService {
     private final LopHocPhanCustomRepository lopHocPhanCustomRepository;
     private final SinhVienLopHocPhanRepository sinhVienLopHocPhanRepository;
     private final SinhVienRepository sinhVienRepository;
+
     @Override
     public GetLopHocPhan lopHocPhans(Integer idGiangVien, Pageable pageable) {
-        Page<LopHocPhan> page = lopHocPhanCustomRepository.getLopHocPhans(idGiangVien,pageable);
+        Page<LopHocPhan> page = lopHocPhanCustomRepository.getLopHocPhans(idGiangVien, pageable);
         List<LopHocPhanDto> list = page.getContent()
                 .stream().map(LopHocPhanDto::new).collect(Collectors.toList());
         PaginationMeta paginationMeta = PaginationMeta.createPagination(page);
-        return new GetLopHocPhan(list,paginationMeta);
+        return new GetLopHocPhan(list, paginationMeta);
     }
 
     @Override
-    public List<LopHocPhanOfSinhVienDto> getLopHocPhanOfSinhVien( Integer idSinhVien) {
+    public List<LopHocPhanOfSinhVienDto> getLopHocPhanOfSinhVien(Integer idSinhVien) {
         SinhVien sinhVien = sinhVienRepository.findById(idSinhVien)
                 .orElseThrow(() -> new IllegalArgumentException("id not found"));
         return sinhVienLopHocPhanRepository.findSinhVien_LopHocPhanBySinhVien(sinhVien)

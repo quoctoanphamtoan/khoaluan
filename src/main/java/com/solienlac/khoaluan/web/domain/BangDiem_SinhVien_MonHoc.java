@@ -33,24 +33,24 @@ public class BangDiem_SinhVien_MonHoc {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idBangDiemTongKet")
     private BangDiemTongKet bangDiemTongKet;
-    public void huyDiem(){
-        this.diemTBC=0;
-        this.diemCK=0;
+
+    public void huyDiem() {
+        this.diemTBC = 0;
+        this.diemCK = 0;
 
     }
-    public void suaDiem(PutBangDiemSinhVien putBangDiemSinhVien){
+
+    public void suaDiem(PutBangDiemSinhVien putBangDiemSinhVien) {
         this.diemTK1 = putBangDiemSinhVien.getTk1();
         this.diemTK2 = putBangDiemSinhVien.getTk2();
         this.diemTK3 = putBangDiemSinhVien.getTk3();
         this.diemGK = putBangDiemSinhVien.getGk();
-        if (putBangDiemSinhVien.getGk()<=0||putBangDiemSinhVien.getCk()<=0){
-            this.diemCK=Double.valueOf("0.0");
+        if (putBangDiemSinhVien.getGk() <= 0 || putBangDiemSinhVien.getCk() <= 0) {
+            this.diemCK = Double.valueOf("0.0");
             this.diemTBC = Double.valueOf("0.0");
-
-            return;
-        }else {
+        } else {
             this.diemCK = putBangDiemSinhVien.getCk();
-            double dtbc =(((this.diemTK1+this.diemTK2+this.diemTK3)/3)*0.2)+(this.diemGK*0.3)+this.diemCK*0.5;
+            double dtbc = (((this.diemTK1 + this.diemTK2 + this.diemTK3) / 3) * 0.2) + (this.diemGK * 0.3) + this.diemCK * 0.5;
             DecimalFormat decimalFormat = new DecimalFormat("#.##");
             this.diemTBC = Double.valueOf(decimalFormat.format(dtbc));
         }
